@@ -20,7 +20,7 @@ export default {
 
 <style scoped>
   .card-img-top {
-    height: 35vh;
+    max-height: 350px;
     object-fit: scale-down;
     }
 </style>

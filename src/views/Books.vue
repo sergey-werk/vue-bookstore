@@ -1,5 +1,5 @@
 <template>
-<div class="books-catalog container-fluid content-row">
+<div class="items-catalog container-fluid content-row">
   <h1>Books Catalog</h1>
   <p>
     <b-form-checkbox v-model="listView" name="check-button" switch>
@@ -10,7 +10,7 @@
     <div
       v-for="item in items"
       :key="item.id"
-      class="col-xs-12 col-sm-6 col-md-4 col-lg-3 d-flex"
+      class="item-card col-xs-12 col-sm-6 col-md-4 d-flex"
     >
       <BookCard
       :item="item"
@@ -63,5 +63,9 @@ export default {
 </script>
 
 <style scoped>
-
+@media (min-width: 1100px) {
+  .item-card {
+    flex: 0 0 350px!important;
+  }
+}
 </style>
