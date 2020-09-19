@@ -6,7 +6,7 @@ import Error404 from '@/views/Error404.vue';
 Vue.use(VueRouter);
 
 const routes = [
-  { path: '/', redirect: { name: 'Books' } },
+  { path: '/', name: 'Home', redirect: { name: 'Books' } },
   {
     path: '/books',
     name: 'Books',
@@ -22,7 +22,15 @@ const routes = [
     name: 'About',
     component: () => import(/* webpackChunkName: "about" */ '@/views/About'),
   },
-  { path: '*', component: Error404 },
+  {
+    path: '/404',
+    name: '404',
+    component: Error404,
+  },
+  {
+    path: '*',
+    redirect: '/404',
+  },
 ];
 
 const router = new VueRouter({
