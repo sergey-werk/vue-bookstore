@@ -1,0 +1,89 @@
+<template>
+<div class="authors-list container-fluid content-row">
+  <h1>Authors List</h1>
+  <p>
+  <b-input-group class="col-4">
+    <b-form-input
+      v-model="filter"
+      type="search"
+      id="filterInput"
+      placeholder="Type to find"
+    ></b-form-input>
+    <b-input-group-append>
+      <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
+    </b-input-group-append>
+  </b-input-group>
+  </p>
+  <b-table
+      small
+      :items="authors"
+      :fields="fields"
+      :current-page="currentPage"
+      :per-page="perPage"
+      :filter="filter"
+      responsive="sm"
+      sort-icon-left
+      @filtered="onFiltered"
+    >
+    <template v-slot:cell(n_books)="data">
+      <b-badge :variant="(data.item.books.length > 1 ) ? 'info' : 'light'">
+        {{ data.item.books.length }}</b-badge>
+    </template>
+  </b-table>
+  <b-pagination
+    v-show="totalRows > perPage"
+    v-model="currentPage"
+    :total-rows="totalRows"
+    :per-page="perPage"
+    size="sm"
+  ></b-pagination>
+</div>
+</template>
+
+<script>
+import { mapState } from 'vuex';
+
+export default {
+  data() {
+    return {
+      fields: [
+        { key: 'name', label: 'Name', sortable: true },
+        {
+          key: 'n_books',
+          label: 'Number of books',
+          sortable: true,
+          formatter: (value, key, item) => (
+            item.books.length
+          ),
+          sortByFormatted: true,
+        },
+      ],
+      totalRows: 1,
+      currentPage: 1,
+      perPage: 15,
+      filter: null,
+    };
+  },
+  computed: {
+    ...mapState('authors', ['authors']),
+  },
+  mounted() {
+    this.$store.dispatch('authors/GET_AUTHORS');
+    this.totalRows = this.authors.length;
+  },
+  methods: {
+    onFiltered(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.totalRows = filteredItems.length;
+      this.currentPage = 1;
+    },
+  },
+};
+</script>
+
+<style scoped>
+.authors-list .table {
+  width: auto!important;
+  min-width: 30%;
+}
+</style>

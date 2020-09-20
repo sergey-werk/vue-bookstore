@@ -1,16 +1,6 @@
 import Axios from 'axios';
 
 const state = {
-  columns: [
-    'title',
-    'subtitle',
-    'isbn13',
-    'price',
-    'image',
-  ],
-  authors: [
-
-  ],
   items: [
     {
       title: 'Getting to Know Vue.js',
@@ -49,10 +39,9 @@ const getters = {
 const actions = {
   GET_ITEMS: async (context) => {
     const { data } = await Axios.get('/books.json');
-    console.log(data);
     context.commit('SET_ITEMS', data);
   },
-  SAVE_TODO: async (context, payload) => {
+  SAVE_ITEM: async (context, payload) => {
     // let { data } = await Axios.post('/books.json');
     context.commit('ADD_ITEM', payload);
   },
