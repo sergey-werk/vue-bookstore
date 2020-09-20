@@ -1,21 +1,22 @@
 <template>
-<div class="authors-list container-fluid content-row">
+<div class="container-fluid content-row">
   <h1>Authors List</h1>
   <p>
-  <b-input-group class="col-4">
-    <b-form-input
-      v-model="filter"
-      type="search"
-      id="filterInput"
-      placeholder="Type to find"
-    ></b-form-input>
-    <b-input-group-append>
-      <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
-    </b-input-group-append>
-  </b-input-group>
+    <b-input-group class="col-4">
+      <b-form-input
+        v-model="filter"
+        type="search"
+        id="filterInput"
+        placeholder="Type to find"
+      ></b-form-input>
+      <b-input-group-append>
+        <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
+      </b-input-group-append>
+    </b-input-group>
   </p>
   <b-table
       small
+      class="authors-table"
       :items="authors"
       :fields="fields"
       :current-page="currentPage"
@@ -81,8 +82,8 @@ export default {
 };
 </script>
 
-<style scoped>
-.authors-list .table {
+<style>
+.authors-table table {
   width: auto!important;
   min-width: 30%;
 }
