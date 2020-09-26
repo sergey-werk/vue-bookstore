@@ -2,7 +2,7 @@
 <div class="container-fluid content-row">
   <h1>Authors List</h1>
   <p>
-    <b-input-group class="col-4">
+    <b-input-group style="max-width: 12em;">
       <b-form-input
         v-model="filter"
         type="search"
@@ -82,9 +82,9 @@ export default {
 };
 </script>
 
-<style>
-.authors-table table {
+<style scoped>
+.authors-table >>> .b-table {
   width: auto!important;
-  min-width: 30%;
+  min-width: 20%!important;
 }
 </style>
