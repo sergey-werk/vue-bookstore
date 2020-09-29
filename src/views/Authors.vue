@@ -1,20 +1,20 @@
 <template>
-<div class="container-fluid content-row">
-  <h1>Authors List</h1>
-  <p>
-    <b-input-group style="max-width: 12em;">
-      <b-form-input
-        v-model="filter"
-        type="search"
-        id="filterInput"
-        placeholder="Type to find"
-      ></b-form-input>
-      <b-input-group-append>
-        <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
-      </b-input-group-append>
-    </b-input-group>
-  </p>
-  <b-table
+  <div class="container-fluid content-row">
+    <h1>Authors List</h1>
+    <p>
+      <b-input-group style="max-width: 12em">
+        <b-form-input
+          v-model="filter"
+          type="search"
+          id="filterInput"
+          placeholder="Type to find"
+        ></b-form-input>
+        <b-input-group-append>
+          <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
+        </b-input-group-append>
+      </b-input-group>
+    </p>
+    <b-table
       small
       class="authors-table"
       :items="authors"
@@ -26,19 +26,20 @@
       sort-icon-left
       @filtered="onFiltered"
     >
-    <template v-slot:cell(n_books)="data">
-      <b-badge :variant="(data.item.books.length > 1 ) ? 'info' : 'light'">
-        {{ data.item.books.length }}</b-badge>
-    </template>
-  </b-table>
-  <b-pagination
-    v-show="totalRows > perPage"
-    v-model="currentPage"
-    :total-rows="totalRows"
-    :per-page="perPage"
-    size="sm"
-  ></b-pagination>
-</div>
+      <template v-slot:cell(n_books)="data">
+        <b-badge :variant="data.item.books.length > 1 ? 'info' : 'light'">
+          {{ data.item.books.length }}</b-badge
+        >
+      </template>
+    </b-table>
+    <b-pagination
+      v-show="totalRows > perPage"
+      v-model="currentPage"
+      :total-rows="totalRows"
+      :per-page="perPage"
+      size="sm"
+    ></b-pagination>
+  </div>
 </template>
 
 <script>
@@ -53,9 +54,7 @@ export default {
           key: 'n_books',
           label: 'Number of books',
           sortable: true,
-          formatter: (value, key, item) => (
-            item.books.length
-          ),
+          formatter: (value, key, item) => item.books.length,
           sortByFormatted: true,
         },
       ],
@@ -84,7 +83,7 @@ export default {
 
 <style scoped>
 .authors-table >>> .b-table {
-  width: auto!important;
-  min-width: 20%!important;
+  width: auto !important;
+  min-width: 20% !important;
 }
 </style>
