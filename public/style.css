@@ -1,0 +1,12 @@
+/* Custom styles that won't break the page layout. */
+
+#topnav a.nav-link:hover {
+  border-bottom: 3px solid grey;
+  margin-bottom: -3px;
+}
+
+#topnav a.nav-link.router-link-active {
+  border-bottom: 3px solid red;
+  margin-bottom: -3px;
+}
+
