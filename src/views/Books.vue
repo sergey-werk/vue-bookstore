@@ -41,7 +41,7 @@
 <script>
 import { mapState } from 'vuex';
 import BookRow from './BooksRow.vue';
-import BookCard from './BookCard.vue';
+import BookCard from './BooksCard.vue';
 
 export default {
   data() {
