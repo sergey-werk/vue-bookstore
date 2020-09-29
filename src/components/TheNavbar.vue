@@ -16,14 +16,3 @@
 <script>
 export default {};
 </script>
-
-<style scoped>
-#topnav a.nav-link:hover {
-  border-bottom: 3px solid red;
-  margin-bottom: -3px;
-}
-#topnav a.nav-link.router-link-active {
-  border-bottom: 3px solid grey;
-  margin-bottom: -3px;
-}
-</style>
