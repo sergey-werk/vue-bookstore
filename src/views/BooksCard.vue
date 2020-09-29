@@ -1,5 +1,5 @@
 <template>
-<b-card class="book-card" :title=item.title
+<b-card class="books-card" :title=item.title
 :img-src=item.image img-alt="Book cover" img-top>
   <b-card-text>
     {{ item.subtitle }}
