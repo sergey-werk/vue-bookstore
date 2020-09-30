@@ -6,7 +6,13 @@
         List view
       </b-form-checkbox>
     </p>
-
+    <p>
+      <b-button variant="success"><b-icon icon="plus-circle" /> Add </b-button>
+    </p>
+    <TheModalItem
+      id="item-card-modal"
+      title="Default Title"
+    ></TheModalItem>
     <div class="row" v-if="!listView">
       <div
         v-for="item in items"
@@ -34,6 +40,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import TheModalItem from '@/components/TheModalItem.vue';
 import BooksRow from './BooksRow.vue';
 import BooksCard from './BooksCard.vue';
 
@@ -46,6 +53,7 @@ export default {
   components: {
     BooksRow,
     BooksCard,
+    TheModalItem,
   },
   computed: {
     ...mapState('catalog', ['items']),
@@ -61,5 +69,8 @@ export default {
   .item-card {
     flex: 0 0 350px !important;
   }
+}
+.b-icon {
+  margin-right: 0.3em;
 }
 </style>

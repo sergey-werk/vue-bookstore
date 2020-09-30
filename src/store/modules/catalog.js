@@ -2,7 +2,7 @@ import Axios from 'axios';
 
 const state = {
   items: [
-    {
+    /* {
       title: 'Getting to Know Vue.js',
       subtitle: 'Learn to Build Single Page Applications in Vue from Scratch',
       isbn13: '9781484237809',
@@ -10,23 +10,9 @@ const state = {
       image: '/bookcovers/9781484237809.png',
       url: 'https://itbook.store/books/9781484237809',
     },
-    {
-      title: 'Building Progressive Web Applications with Vue.js',
-      subtitle: 'Reliable, Fast, and Engaging Apps with Vue.js',
-      isbn13: '9781484253335',
-      price: '$19.89',
-      image: '/bookcovers/9781484253335.png',
-      url: 'https://itbook.store/books/9781484253335',
-    },
-    {
-      title: 'Full-Stack Web Development with Vue.js and Node',
-      subtitle: 'Build scalable and powerful web apps with modern web stack: MongoDB, Vue, Node.js, and Express',
-      isbn13: '9781788831147',
-      price: '$35.99',
-      image: '/bookcovers/9781788831147.png',
-      url: 'https://itbook.store/books/9781788831147',
-    },
+    */
   ],
+  selectedItem: '',
 };
 
 const getters = {
@@ -39,19 +25,20 @@ const getters = {
 const actions = {
   GET_ITEMS: async (context) => {
     const { data } = await Axios.get('/books.json');
-    context.commit('SET_ITEMS', data);
+    context.commit('ITEMS_SET', data);
   },
-  SAVE_ITEM: async (context, payload) => {
-    // let { data } = await Axios.post('/books.json');
-    context.commit('ADD_ITEM', payload);
+  ADD_ITEM: async (context, payload) => {
+    // : Not implemented
+    // let { data } = await Axios.post('/books/');
+    context.commit('ITEM_ADD', payload);
   },
 };
 
 const mutations = {
-  SET_ITEMS: (_state, payload) => {
+  ITEMS_SET: (_state, payload) => {
     _state.items = payload; // eslint-disable-line no-param-reassign
   },
-  ADD_ITEM: (_state, payload) => {
+  ITEM_ADD: (_state, payload) => {
     _state.items.push(payload);
   },
 };
