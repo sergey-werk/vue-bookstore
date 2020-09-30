@@ -5,9 +5,9 @@
     <b-navbar-toggle target="nav-text-collapse"></b-navbar-toggle>
     <b-collapse id="nav-text-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item :to="'books'">Books</b-nav-item>
-        <b-nav-item :to="'authors'">Authors</b-nav-item>
-        <b-nav-item :to="'about'">About</b-nav-item>
+        <b-nav-item :to="'/books'">Books</b-nav-item>
+        <b-nav-item :to="'/authors'">Authors</b-nav-item>
+        <b-nav-item :to="'/about'">About</b-nav-item>
       </b-navbar-nav>
     </b-collapse>
 </b-navbar>
