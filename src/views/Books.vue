@@ -9,10 +9,7 @@
     <p>
       <b-button variant="success"><b-icon icon="plus-circle" /> Add </b-button>
     </p>
-    <TheModalItem
-      id="item-card-modal"
-      title="Default Title"
-    ></TheModalItem>
+    <TheModalItem id="item-card-modal" title="Default Title"></TheModalItem>
     <div class="row" v-if="!listView">
       <div
         v-for="item in items"

@@ -8,6 +8,12 @@ import authors from './modules/authors';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  state: {
+  },
+  mutations: {
+  },
+  actions: {
+  },
   modules: {
     catalog,
     authors,
