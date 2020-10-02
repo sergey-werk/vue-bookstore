@@ -1,8 +1,6 @@
-import Axios from 'axios';
-
 const state = {
   items: [
-    /* {
+    {
       title: 'Getting to Know Vue.js',
       subtitle: 'Learn to Build Single Page Applications in Vue from Scratch',
       isbn13: '9781484237809',
@@ -10,7 +8,6 @@ const state = {
       image: '/bookcovers/9781484237809.png',
       url: 'https://itbook.store/books/9781484237809',
     },
-    */
   ],
   selectedItem: '',
 };
@@ -23,11 +20,12 @@ const getters = {
 };
 
 const actions = {
-  GET_ITEMS: async (context) => {
-    const { data } = await Axios.get('/books.json');
+  fetchItems: async (context) => {
+    // const { data } = await Axios.get('/books.json');
+    const data = state.items;
     context.commit('ITEMS_SET', data);
   },
-  ADD_ITEM: async (context, payload) => {
+  addItem: async (context, payload) => {
     // : Not implemented
     // let { data } = await Axios.post('/books/');
     context.commit('ITEM_ADD', payload);

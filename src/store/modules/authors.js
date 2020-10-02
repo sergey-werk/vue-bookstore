@@ -1,12 +1,10 @@
-import Axios from 'axios';
-
 const state = {
   authors: [
-    /* {
+    {
       id: 0,
       name: 'Brett Nelson',
       books: [0],
-    }, */
+    },
   ],
 };
 
@@ -18,11 +16,12 @@ const getters = {
 };
 
 const actions = {
-  GET_AUTHORS: async (context) => {
-    const { data } = await Axios.get('/authors.json');
+  getAuthors: async (context) => {
+    // const { data } = await Axios.get('/authors.json');
+    const data = state.authors;
     context.commit('SET_AUTHORS', data);
   },
-  SAVE_AUTHOR: async (context, payload) => {
+  saveAuthor: async (context, payload) => {
     // let { data } = await Axios.post('/authors.json');
     context.commit('ADD_AUTHOR', payload);
   },
