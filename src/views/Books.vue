@@ -58,7 +58,7 @@ export default {
   computed: {
     ...mapState('catalog', ['items']),
   },
-  mounted() {
+  created() {
     this.$store.dispatch('catalog/GET_ITEMS');
   },
 };

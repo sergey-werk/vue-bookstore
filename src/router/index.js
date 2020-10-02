@@ -13,6 +13,12 @@ const routes = [
     component: () => import(/* webpackChunkName: "books" */ '@/views/Books'),
   },
   {
+    path: '/books/:id',
+    name: 'Book',
+    props: true,
+    component: () => import(/* webpackChunkName: "book" */ '@/views/Book'),
+  },
+  {
     path: '/authors',
     name: 'Authors',
     component: () => import(/* webpackChunkName: "authors" */ '@/views/Authors'),

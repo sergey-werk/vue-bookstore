@@ -2,21 +2,11 @@ import Axios from 'axios';
 
 const state = {
   authors: [
-    {
+    /* {
       id: 0,
       name: 'Brett Nelson',
       books: [0],
-    },
-    {
-      id: 1,
-      name: 'Carlos Rojas',
-      books: [1],
-    },
-    {
-      id: 2,
-      name: 'Aneeta Sharma',
-      books: [2],
-    },
+    }, */
   ],
 };
 
