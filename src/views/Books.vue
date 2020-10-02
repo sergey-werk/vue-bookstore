@@ -12,7 +12,7 @@
     <TheModalItem id="book-card-modal" title="Default Title"></TheModalItem>
     <div class="row" v-if="!listView">
       <div
-        v-for="book in books"
+        v-for="book in items"
         :key="book.id"
         class="book-card col-xs-12 col-sm-6 col-md-4 d-flex"
       >
@@ -53,10 +53,10 @@ export default {
     TheModalItem,
   },
   computed: {
-    ...mapState('catalog', ['books']),
+    ...mapState('books', ['items']),
   },
   created() {
-    this.$store.dispatch('catalog/fetchBooks');
+    this.$store.dispatch('books/fetchBooks');
   },
 };
 </script>

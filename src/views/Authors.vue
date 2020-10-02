@@ -17,7 +17,7 @@
     <b-table
       small
       class="authors-table"
-      :items="authors"
+      :items="items"
       :fields="fields"
       :current-page="currentPage"
       :per-page="perPage"
@@ -65,11 +65,11 @@ export default {
     };
   },
   computed: {
-    ...mapState('authors', ['authors']),
+    ...mapState('authors', ['items']),
   },
   mounted() {
     this.$store.dispatch('authors/fetchAuthors');
-    this.totalRows = this.authors.length;
+    this.totalRows = this.items.length;
   },
   methods: {
     onFiltered(filteredItems) {

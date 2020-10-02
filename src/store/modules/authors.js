@@ -1,16 +1,17 @@
 const state = {
-  authors: [
+  items: [
     {
       id: 0,
       name: 'Brett Nelson',
       books: [0],
     },
   ],
+  selectedItem: '',
 };
 
 const getters = {
-  item: (_state) => (itemId) => {
-    const found = _state.authors.find((item) => item.id === itemId);
+  author: (_state) => (id) => {
+    const found = _state.items.find((item) => item.id === id);
     return found;
   },
 };

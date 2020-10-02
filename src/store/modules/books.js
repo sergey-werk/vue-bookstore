@@ -1,5 +1,5 @@
 const state = {
-  books: [
+  items: [
     {
       id: 0,
       title: 'Getting to Know Vue.js',
@@ -18,12 +18,12 @@ const state = {
       url: 'https://itbook.store/books/9781484237809',
     },
   ],
-  selectedBook: '',
+  selectedItem: '',
 };
 
 const getters = {
   book: (_state) => (id) => {
-    const found = _state.books.find((book) => book.id === id);
+    const found = _state.items.find((item) => item.id === id);
     return found;
   },
 };
