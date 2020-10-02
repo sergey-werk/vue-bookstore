@@ -68,7 +68,7 @@ export default {
     ...mapState('authors', ['authors']),
   },
   mounted() {
-    this.$store.dispatch('authors/GET_AUTHORS');
+    this.$store.dispatch('authors/fetchAuthors');
     this.totalRows = this.authors.length;
   },
   methods: {

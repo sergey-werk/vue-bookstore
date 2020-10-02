@@ -16,7 +16,7 @@ const getters = {
 };
 
 const actions = {
-  getAuthors: async (context) => {
+  fetchAuthors: async (context) => {
     // const { data } = await Axios.get('/authors.json');
     const data = state.authors;
     context.commit('SET_AUTHORS', data);
