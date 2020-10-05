@@ -32,24 +32,26 @@ const getters = {
 };
 
 const actions = {
-  fetchBooks: async (context) => {
-    client.fetchItems('/books.json',
-      (data) => {
-        context.commit('BOOKS_SET', data);
-      });
+  fetchBooks: ({ commit, state: { items } }) => {
+    if (!items.length) {
+      commit('setLoading', true, { root: true });
+    }
+    client.fetchItems('/books.json')
+      .finally(() => commit('setLoading', false, { root: true }))
+      .then((data) => commit('BOOKS_SET', data));
   },
-  addBook: async (context, payload) => {
+  addBook: async ({ commit }, payload) => {
     // FIX: Not implemented yet
-    context.commit('BOOK_ADD', payload);
+    commit('BOOK_ADD', payload);
   },
 };
 
 const mutations = {
-  BOOKS_SET: (_state, payload) => {
-    _state.items = payload; // eslint-disable-line no-param-reassign
+  BOOKS_SET: (_, payload) => {
+    _.items = payload; // eslint-disable-line no-param-reassign
   },
-  BOOK_ADD: (_state, payload) => {
-    _state.items.push(payload);
+  BOOK_ADD: (_, payload) => {
+    _.items.push(payload);
   },
 };
 

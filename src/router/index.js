@@ -16,7 +16,7 @@ const routes = [
     path: '/books/:id',
     name: 'Book',
     props: true,
-    component: () => import(/* webpackChunkName: "book" */ '@/views/Book'),
+    component: () => import(/* webpackChunkName: "books" */ '@/views/Book'),
   },
   {
     path: '/authors',

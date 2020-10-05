@@ -10,6 +10,7 @@
       <b-button variant="success"><b-icon icon="plus-circle" /> Add </b-button>
     </p>
     <TheModalItem id="book-card-modal" title="Default Title"></TheModalItem>
+    <b-spinner label="Loading..." v-if="this.$store.state.loading"></b-spinner>
     <div class="row" v-if="!listView">
       <div
         v-for="book in items"
@@ -55,7 +56,7 @@ export default {
   computed: {
     ...mapState('books', ['items']),
   },
-  created() {
+  mounted() {
     this.$store.dispatch('books/fetchBooks');
   },
 };

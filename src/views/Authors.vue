@@ -32,6 +32,7 @@
         >
       </template>
     </b-table>
+    <b-spinner label="Loading..." v-if="this.$store.state.loading"></b-spinner>
     <b-pagination
       v-show="totalRows > perPage"
       v-model="currentPage"

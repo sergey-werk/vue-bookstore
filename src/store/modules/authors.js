@@ -19,15 +19,17 @@ const getters = {
 };
 
 const actions = {
-  fetchAuthors: async (context) => {
-    client.fetchItems('/authors.json',
-      (data) => {
-        context.commit('AUTHORS_SET', data);
-      });
+  fetchAuthors: ({ commit, state: { items } }) => {
+    if (!items.length) {
+      commit('setLoading', true, { root: true });
+    }
+    client.fetchItems('/authors.json')
+      .finally(() => commit('setLoading', false, { root: true }))
+      .then((data) => commit('AUTHORS_SET', data));
   },
-  addAuthor: async (context, payload) => {
+  addAuthor: ({ commit }, payload) => {
     // FIXME: Not implemented yet.
-    context.commit('AUTHOR_ADD', payload);
+    commit('AUTHOR_ADD', payload);
   },
 };
 
