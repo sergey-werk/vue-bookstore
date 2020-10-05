@@ -66,15 +66,16 @@ export default {
   },
   computed: {
     ...mapState('authors', ['items']),
+    itemsCount() { return this.items.length; },
   },
   mounted() {
     this.$store.dispatch('authors/fetchAuthors');
-    this.totalRows = this.items.length; // Display pagination immediatly.
+    this.totalRows = this.itemsCount;
   },
   watch: {
-    items(newValue) { // FIXME: ? Is there a better solution?
+    itemsCount(newValue) {
       // Update pagination on items change.
-      this.totalRows = newValue.length;
+      this.totalRows = newValue;
     },
   },
   methods: {
