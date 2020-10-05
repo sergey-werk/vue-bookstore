@@ -29,7 +29,7 @@
         </tr>
       </thead>
       <tbody>
-        <BooksRow :item="book" v-for="book in books" :key="book.id"></BooksRow>
+        <BooksRow :item="book" v-for="book in items" :key="book.id"></BooksRow>
       </tbody>
     </table>
   </div>
