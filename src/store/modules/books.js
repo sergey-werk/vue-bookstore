@@ -1,5 +1,8 @@
+import client from '@/api/client';
+
 const state = {
   items: [
+    /*
     {
       id: 0,
       title: 'Getting to Know Vue.js',
@@ -12,12 +15,12 @@ const state = {
       pages: '265',
       year: '2018',
       rating: '2',
-      desc: 'Learn how to render lists of items without repeating your code structure and how to work with conditional rendering items and event handling. Containing all you need to know to get started with Vue.js, this book will take you through using build tools (transpile to ES5), creating custom components, ...',
+      desc: 'Learn how to render lists of items without repeating your code structure ...',
       price: '$27.96',
       image: '/bookcovers/9781484237809.png',
       url: 'https://itbook.store/books/9781484237809',
     },
-  ],
+  */],
   selectedItem: '',
 };
 
@@ -30,23 +33,23 @@ const getters = {
 
 const actions = {
   fetchBooks: async (context) => {
-    // const { data } = await Axios.get('/books.json');
-    const data = state.books;
-    context.commit('SET_BOOKS', data);
+    client.fetchItems('/books.json',
+      (data) => {
+        context.commit('BOOKS_SET', data);
+      });
   },
   addBook: async (context, payload) => {
-    // : Not implemented
-    // let { data } = await Axios.post('/books/');
-    context.commit('ADD_BOOK', payload);
+    // FIX: Not implemented yet
+    context.commit('BOOK_ADD', payload);
   },
 };
 
 const mutations = {
-  SET_BOOKS: (_state, payload) => {
-    _state.books = payload; // eslint-disable-line no-param-reassign
+  BOOKS_SET: (_state, payload) => {
+    _state.items = payload; // eslint-disable-line no-param-reassign
   },
-  ADD_BOOK: (_state, payload) => {
-    _state.books.push(payload);
+  BOOK_ADD: (_state, payload) => {
+    _state.items.push(payload);
   },
 };
 

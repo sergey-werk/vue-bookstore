@@ -1,10 +1,12 @@
+import client from '@/api/client';
+
 const state = {
   items: [
-    {
+    /*     {
       id: 0,
       name: 'Brett Nelson',
       books: [0],
-    },
+    }, */
   ],
   selectedItem: '',
 };
@@ -18,22 +20,23 @@ const getters = {
 
 const actions = {
   fetchAuthors: async (context) => {
-    // const { data } = await Axios.get('/authors.json');
-    const data = state.authors;
-    context.commit('SET_AUTHORS', data);
+    client.fetchItems('/authors.json',
+      (data) => {
+        context.commit('AUTHORS_SET', data);
+      });
   },
-  saveAuthor: async (context, payload) => {
-    // let { data } = await Axios.post('/authors.json');
-    context.commit('ADD_AUTHOR', payload);
+  addAuthor: async (context, payload) => {
+    // FIXME: Not implemented yet.
+    context.commit('AUTHOR_ADD', payload);
   },
 };
 
 const mutations = {
-  SET_AUTHORS: (_state, payload) => {
-    _state.authors = payload; // eslint-disable-line no-param-reassign
+  AUTHORS_SET: (_state, payload) => {
+    _state.items = payload; // eslint-disable-line no-param-reassign
   },
-  ADD_AUTHOR: (_state, payload) => {
-    _state.authors.push(payload);
+  AUTHOR_ADD: (_state, payload) => {
+    _state.items.push(payload);
   },
 };
 

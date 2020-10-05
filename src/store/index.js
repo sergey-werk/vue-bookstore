@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import createPersistedState from 'vuex-persistedstate';
+// import createPersistedState from 'vuex-persistedstate';
 
 import books from './modules/books';
 import authors from './modules/authors';
@@ -18,5 +18,5 @@ export default new Vuex.Store({
     books,
     authors,
   },
-  plugins: [createPersistedState()],
+  // plugins: [createPersistedState()],
 });
