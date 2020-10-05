@@ -60,7 +60,7 @@ export default {
       ],
       totalRows: 1,
       currentPage: 1,
-      perPage: 15,
+      perPage: 10,
       filter: null,
     };
   },
@@ -69,7 +69,14 @@ export default {
   },
   mounted() {
     this.$store.dispatch('authors/fetchAuthors');
-    this.totalRows = this.items.length;
+    this.totalRows = this.items.length; // To prevent delay with watch().
+  },
+  watch: {
+    items(newValue) { // FIXME: ? Is there a better solution?
+      if (!this.filter) {
+        this.totalRows = newValue.length;
+      }
+    },
   },
   methods: {
     onFiltered(filteredItems) {
