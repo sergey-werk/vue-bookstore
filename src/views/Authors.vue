@@ -37,7 +37,6 @@
       v-model="currentPage"
       :total-rows="totalRows"
       :per-page="perPage"
-      size="sm"
     ></b-pagination>
   </div>
 </template>
@@ -69,20 +68,18 @@ export default {
   },
   mounted() {
     this.$store.dispatch('authors/fetchAuthors');
-    this.totalRows = this.items.length; // To prevent delay with watch().
+    this.totalRows = this.items.length; // Display pagination immediatly.
   },
   watch: {
     items(newValue) { // FIXME: ? Is there a better solution?
-      if (!this.filter) {
-        this.totalRows = newValue.length;
-      }
+      // Update pagination on items change.
+      this.totalRows = newValue.length;
     },
   },
   methods: {
     onFiltered(filteredItems) {
-      // Trigger pagination to update the number of buttons/pages due to filtering
+      // Trigger pagination to update the number of pages
       this.totalRows = filteredItems.length;
-      this.currentPage = 1;
     },
   },
 };
