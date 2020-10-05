@@ -44,7 +44,8 @@
   "vue": {
     "devServer": {
       "watchOptions": {
-        "poll": true
+        "poll": 5000,
+        "ignored": "/node_modules/"
       }
     }
   },
