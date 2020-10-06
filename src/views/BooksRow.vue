@@ -2,12 +2,8 @@
   <tr class="item-row">
     <td>{{ item.id }}</td>
     <td>
-      <a href="#"
-        @click.prevent="add($event)"
-        class="item-title"
-        v-b-modal.item-card-modal
-        >
-          {{ item.title }}
+      <a href="#" @click.prevent="add($event)" class="item-title" v-b-modal.item-card-modal>
+        {{ item.title }}
       </a>
     </td>
     <td>{{ item.price }}</td>
@@ -25,9 +21,9 @@ export default {
 <style scoped>
 .item-title {
   color: black;
-  display:inline-block;
-  width:100%;
-  height:100%;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
 }
 .item-title:hover {
   text-decoration: underline;

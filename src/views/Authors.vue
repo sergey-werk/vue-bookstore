@@ -17,7 +17,7 @@
     <b-table
       small
       class="authors-table"
-      :items="authors"
+      :items="items"
       :fields="fields"
       :current-page="currentPage"
       :per-page="perPage"
@@ -32,12 +32,12 @@
         >
       </template>
     </b-table>
+    <b-spinner label="Loading..." v-if="this.$store.state.loading"></b-spinner>
     <b-pagination
       v-show="totalRows > perPage"
       v-model="currentPage"
       :total-rows="totalRows"
       :per-page="perPage"
-      size="sm"
     ></b-pagination>
   </div>
 </template>
@@ -60,22 +60,28 @@ export default {
       ],
       totalRows: 1,
       currentPage: 1,
-      perPage: 15,
+      perPage: 10,
       filter: null,
     };
   },
   computed: {
-    ...mapState('authors', ['authors']),
+    ...mapState('authors', ['items']),
+    itemsCount() { return this.items.length; },
   },
   mounted() {
-    this.$store.dispatch('authors/GET_AUTHORS');
-    this.totalRows = this.authors.length;
+    this.$store.dispatch('authors/fetchAuthors');
+    this.totalRows = this.itemsCount;
+  },
+  watch: {
+    itemsCount(newValue) {
+      // Update pagination on items change.
+      this.totalRows = newValue;
+    },
   },
   methods: {
     onFiltered(filteredItems) {
-      // Trigger pagination to update the number of buttons/pages due to filtering
+      // Trigger pagination to update the number of pages
       this.totalRows = filteredItems.length;
-      this.currentPage = 1;
     },
   },
 };
