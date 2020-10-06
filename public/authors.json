@@ -1,0 +1,147 @@
+[
+    {
+        "id": 0,
+        "name": "Brett Nelson",
+        "books": [0]
+    },
+    {
+        "id": 1,
+        "name": "Carlos Rojas",
+        "books": [1]
+    },
+    {
+        "id": 2,
+        "name": "Aneeta Sharma",
+        "books": [2]
+    },
+    {
+        "id": 3,
+        "name": "James J. Ye",
+        "books": [3]
+    },
+    {
+        "id": 4,
+        "name": "Stuart Ratcliffe",
+        "books": [4]
+    },
+    {
+        "id": 5,
+        "name": "Andrea Koutifaris",
+        "books": [5]
+    },
+    {
+        "id": 6,
+        "name": "Sufyan bin Uzayr",
+        "books": [6, 17]
+    },
+    {
+        "id": 7,
+        "name": "Mike Street",
+        "books": [7]
+    },
+    {
+        "id": 8,
+        "name": "Andrea Passaglia",
+        "books": [7]
+    },
+    {
+        "id": 9,
+        "name": "Paul Halliday",
+        "books": [7]
+    },
+    {
+        "id": 10,
+        "name": "Adam Freeman",
+        "books": [8]
+    },
+    {
+        "id": 11,
+        "name": "Callum Macrae",
+        "books": [9]
+    },
+    {
+        "id": 12,
+        "name": "Erik Hanchett",
+        "books": [10]
+    },
+    {
+        "id": 13,
+        "name": "Benjamin Listwon",
+        "books": [10]
+    },
+    {
+        "id": 14,
+        "name": "Edd Yerburgh",
+        "books": [11]
+    },
+    {
+        "id": 15,
+        "name": "Tamir Dresher",
+        "books": [12]
+    },
+    {
+        "id": 16,
+        "name": "Amir Zuker",
+        "books": [12]
+    },
+    {
+        "id": 17,
+        "name": "Shay Friedman",
+        "books": [12]
+    },
+    {
+        "id": 18,
+        "name": "Frank Zammetti",
+        "books": [13]
+    },
+    {
+        "id": 19,
+        "name": "Fu Cheng",
+        "books": [14]
+    },
+    {
+        "id": 20,
+        "name": "Olga Filipova",
+        "books": [15]
+    },
+    {
+        "id": 21,
+        "name": "Rui Vilao",
+        "books": [15]
+    },
+    {
+        "id": 22,
+        "name": "Preston So",
+        "books": [16]
+    },
+    {
+        "id": 23,
+        "name": "Nicholas Cloud",
+        "books": [17]
+    },
+    {
+        "id": 24,
+        "name": "Tim Ambler",
+        "books": [17]
+    },
+    {
+        "id": 25,
+        "name": "Michele Aponte",
+        "books": [18]
+    },
+    {
+        "id": 26,
+        "name": "Yakov Fain",
+        "books": [19]
+    },
+    {
+        "id": 27,
+        "name": "Anton Moiseev",
+        "books": [19]
+    },
+    {
+        "id": 28,
+        "name": "Philippe Hong",
+        "books": [20]
+    }
+]
