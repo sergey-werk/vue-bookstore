@@ -1,39 +1,44 @@
-import Axios from 'axios';
+import client from '@/api/client';
 
 const state = {
-  authors: [
-    /* {
+  items: [
+    /*     {
       id: 0,
       name: 'Brett Nelson',
       books: [0],
     }, */
   ],
+  selectedItem: '',
 };
 
 const getters = {
-  item: (_state) => (itemId) => {
-    const found = _state.authors.find((item) => item.id === itemId);
+  author: (_state) => (id) => {
+    const found = _state.items.find((item) => item.id === id);
     return found;
   },
 };
 
 const actions = {
-  GET_AUTHORS: async (context) => {
-    const { data } = await Axios.get('/authors.json');
-    context.commit('SET_AUTHORS', data);
+  fetchAuthors: ({ commit, state: { items } }) => {
+    if (!items.length) {
+      commit('setLoading', true, { root: true });
+    }
+    client.fetchItems('/authors.json')
+      .finally(() => commit('setLoading', false, { root: true }))
+      .then((data) => commit('AUTHORS_SET', data));
   },
-  SAVE_AUTHOR: async (context, payload) => {
-    // let { data } = await Axios.post('/authors.json');
-    context.commit('ADD_AUTHOR', payload);
+  addAuthor: ({ commit }, payload) => {
+    // FIXME: Not implemented yet.
+    commit('AUTHOR_ADD', payload);
   },
 };
 
 const mutations = {
-  SET_AUTHORS: (_state, payload) => {
-    _state.authors = payload; // eslint-disable-line no-param-reassign
+  AUTHORS_SET: (_state, payload) => {
+    _state.items = payload; // eslint-disable-line no-param-reassign
   },
-  ADD_AUTHOR: (_state, payload) => {
-    _state.authors.push(payload);
+  AUTHOR_ADD: (_state, payload) => {
+    _state.items.push(payload);
   },
 };
 
