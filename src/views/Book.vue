@@ -2,8 +2,8 @@
 <template>
   <section class="book-item" v-if="book">
     <header>
-      <h1> {{ book.title }} </h1>
-      <p class="subheader"> by {{ book.authors}} </p>
+      <h1>{{ book.title }}</h1>
+      <p class="book-authors">by {{ book.authors }}</p>
     </header>
     <p class="book-subtitle">
       {{ book.subtitle }}
@@ -11,15 +11,17 @@
 
     <div class="d-flex flex-sm-row flex-column">
       <div class="p-0">
-        <img :src="book.image | base_url" alt="Book cover" />
+        <img class="book-cover" :src="book.image | base_url" alt="Book cover" />
       </div>
       <div class="mr-auto p-4 mt-auto mb-auto flex-column">
         <p
-        v-for="(field, key) in show_fields"
-        :key="key"
-        :class="`book-field book-${key}`"
+          v-for="(field, key) in show_fields"
+          :key="key"
+          :class="`book-field book-${key}`"
         >
-          <label v-if="field" :for="field_id = `book-${book.id}-${key}`">{{ field }}:&nbsp;</label>
+          <label v-if="field" :for="(field_id = `book-${book.id}-${key}`)"
+            >{{ field }}:&nbsp;</label
+          >
           <span class="book-field-value" :id="field_id">
             {{ book[key] }}
           </span>
@@ -35,11 +37,13 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'Book', // Prevent 'Anonymous component' in devtools.
   data() {
     return {
-      book: this.bookObj ? this.bookObj : this.getBook(),
+      book: null,
       show_fields: {
         price: 'Price',
         publisher: 'Published by',
@@ -55,15 +59,20 @@ export default {
     id: Number, // FIXME: how to cast to int?
     bookObj: Object, // Pass object directly without calling getters.
   },
+  computed: {
+    ...mapGetters('books', ['getBookById']),
+  },
   methods: {
     getBook() {
-      this.book = this.$store.getters['books/getBookById'](this.id);
+      return this.getBookById(this.id);
     },
   },
   mounted() {
-    if (!this.book) {
+    this.book = this.getBook();
+
+    if (!this.book) { // page opened with a direct link
       this.$store.dispatch('books/fetchBooks').then(() => {
-        this.getBook();
+        this.book = this.getBook();
       });
     }
   },
@@ -94,8 +103,7 @@ export default {
   font-style: italic;
 }
 
-.book-item .book-price .book-field-value{
+.book-item .book-price .book-field-value {
   font-weight: bolder;
 }
-
 </style>

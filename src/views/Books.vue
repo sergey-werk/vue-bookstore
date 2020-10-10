@@ -57,7 +57,9 @@ export default {
     ...mapState('books', ['items']),
   },
   mounted() {
-    this.$store.dispatch('books/fetchBooks');
+    if (!this.items.length) {
+      this.$store.dispatch('books/fetchBooks');
+    }
   },
 };
 </script>

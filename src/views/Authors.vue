@@ -69,7 +69,9 @@ export default {
     itemsCount() { return this.items.length; },
   },
   mounted() {
-    this.$store.dispatch('authors/fetchAuthors');
+    if (!this.items.length) {
+      this.$store.dispatch('authors/fetchAuthors');
+    }
     this.totalRows = this.itemsCount;
   },
   watch: {

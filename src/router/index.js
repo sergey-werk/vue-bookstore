@@ -15,7 +15,7 @@ const routes = [
   {
     path: '/books/:id',
     name: 'Book',
-    props: (route) => ({ id: Number(route.params.id) }), // FIXME: ? a better way to cast a type?
+    props: (route) => ({ id: Number(route.params.id) }), // FIXME: ? a better way to cast a type
     component: () => import(/* webpackChunkName: "books" */ '@/views/Book'),
   },
   {
@@ -29,13 +29,8 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '@/views/About'),
   },
   {
-    path: '/404',
-    name: '404',
-    component: Error404,
-  },
-  {
     path: '*',
-    redirect: '/404',
+    component: Error404,
   },
 ];
 

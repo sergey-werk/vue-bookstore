@@ -13,6 +13,9 @@ Vue.use(IconsPlugin);
 Vue.config.productionTip = false;
 
 Vue.filter('base_url', (value) => {
+  /** add BASE_URL before path.
+   * Useful for files in 'public' directory.
+   */
   let url = process.env.BASE_URL + value;
   url = url.split('/').filter((x) => x).join('/'); // '//' -> '/'
   return `/${url}`;
