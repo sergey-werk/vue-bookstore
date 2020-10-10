@@ -1,15 +1,15 @@
 <template>
-  <b-card class="books-card" :img-src="item.image" img-alt="Book cover" img-top>
+  <b-card class="books-card" :img-src="item.image | base_url" img-alt="Book cover" img-top>
     <b-card-title>
-      <a
-        href="#"
-        @click.prevent="add($event)"
-        @click="$bvModal.show('item-card-modal')"
+      <router-link
+        :to="{ name: 'Book', params: { id: item.id }}"
         class="stretched-link"
+        event=""
+        @click.native.prevent="$bvModal.show('item-card-modal')"
         v-b-modal.item-card-modal
-      >
+        >
         {{ item.title }}
-      </a>
+      </router-link>
     </b-card-title>
     <b-card-sub-title>
       {{ item.subtitle }}

@@ -12,6 +12,12 @@ Vue.use(IconsPlugin);
 
 Vue.config.productionTip = false;
 
+Vue.filter('base_url', (value) => {
+  let url = process.env.BASE_URL + value;
+  url = url.split('/').filter((x) => x).join('/'); // '//' -> '/'
+  return `/${url}`;
+});
+
 new Vue({
   router,
   store,

@@ -2,9 +2,12 @@
   <tr class="item-row">
     <td>{{ item.id }}</td>
     <td>
-      <a href="#" @click.prevent="add($event)" class="item-title" v-b-modal.item-card-modal>
+      <router-link
+        :to="{ name: 'Book', params: { id: item.id }}"
+        class="item-title"
+        >
         {{ item.title }}
-      </a>
+      </router-link>
     </td>
     <td>{{ item.price }}</td>
   </tr>

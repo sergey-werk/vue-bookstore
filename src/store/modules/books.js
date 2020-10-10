@@ -25,18 +25,18 @@ const state = {
 };
 
 const getters = {
-  book: (_state) => (id) => {
+  getBookById: (_state) => (id) => {
     const found = _state.items.find((item) => item.id === id);
     return found;
   },
 };
 
 const actions = {
-  fetchBooks: ({ commit, state: { items } }) => {
+  fetchBooks: async ({ commit, state: { items } }) => {
     if (!items.length) {
       commit('setLoading', true, { root: true });
     }
-    client.fetchItems('/books.json')
+    await client.fetchItems('/books.json')
       .finally(() => commit('setLoading', false, { root: true }))
       .then((data) => commit('BOOKS_SET', data));
   },
