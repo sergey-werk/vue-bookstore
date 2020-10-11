@@ -1,5 +1,9 @@
 /* Custom styles that won't break the page layout. */
 
+.layout {
+  padding: 0 3%;
+}
+
 #topnav a.nav-link:hover {
   border-bottom: 3px solid grey;
   margin-bottom: -3px;

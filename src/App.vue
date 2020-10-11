@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="layout">
     <TheNavbar />
     <main>
       <router-view />
@@ -16,6 +16,3 @@ export default {
   },
 };
 </script>
-
-<style>
-</style>

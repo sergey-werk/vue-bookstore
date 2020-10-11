@@ -5,8 +5,7 @@
         :to="{ name: 'Book', params: { id: item.id }}"
         class="stretched-link"
         event=""
-        @click.native.prevent="$bvModal.show('item-card-modal')"
-        v-b-modal.item-card-modal
+        @click.native.prevent="onClick"
         >
         {{ item.title }}
       </router-link>
@@ -27,6 +26,11 @@
 
 export default {
   props: ['item'],
+  methods: {
+    onClick() {
+      this.$emit('selected', { item: this.item });
+    },
+  },
 };
 </script>
 

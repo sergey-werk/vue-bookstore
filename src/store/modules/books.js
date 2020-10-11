@@ -36,7 +36,6 @@ const actions = {
     if (!items.length) {
       commit('setLoading', true, { root: true });
     }
-    console.log('fetchBooks');
     await client.fetchItems('/books.json')
       .finally(() => commit('setLoading', false, { root: true }))
       .then((data) => commit('BOOKS_SET', data));

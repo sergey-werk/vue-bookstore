@@ -13,7 +13,7 @@
       <div class="p-0">
         <img class="book-cover" :src="book.image | base_url" alt="Book cover" />
       </div>
-      <div class="mr-auto p-4 mt-auto mb-auto flex-column">
+      <div class="mr-auto mt-auto mb-auto flex-column">
         <p
           v-for="(field, key) in show_fields"
           :key="key"
@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     getBook() {
-      return this.getBookById(this.id);
+      return this.bookObj ? this.bookObj : this.getBookById(this.id);
     },
   },
   mounted() {
@@ -82,14 +82,10 @@ export default {
 
 <style scoped>
 .book-item {
-  padding-left: 10%;
   max-width: 50em;
 }
-.book-item header {
-  max-width: 80%;
-}
 .book-item label {
-  margin-right: 1em;
+  margin-right: 1en;
   color: lightslategray;
 }
 .book-item .book-field {

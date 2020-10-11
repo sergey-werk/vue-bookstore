@@ -9,7 +9,9 @@
     <p>
       <b-button variant="success"><b-icon icon="plus-circle" /> Add </b-button>
     </p>
-    <TheModalItem id="book-card-modal" title="Default Title"></TheModalItem>
+    <TheModalItem id="book-card-modal" size="md" >
+      <Book :bookObj="selectedBook" />
+    </TheModalItem>
     <b-spinner label="Loading..." v-if="this.$store.state.loading"></b-spinner>
     <div class="row" v-if="!listView">
       <div
@@ -17,7 +19,7 @@
         :key="book.id"
         class="book-card col-xs-12 col-sm-6 col-md-4 d-flex"
       >
-        <BooksCard :item="book" class="w-100 mb-4"></BooksCard>
+        <BooksCard :item="book" class="w-100 mb-4" @selected="onSelected"></BooksCard>
       </div>
     </div>
 
@@ -41,17 +43,26 @@ import { mapState } from 'vuex';
 import TheModalItem from '@/components/TheModalItem.vue';
 import BooksRow from './BooksRow.vue';
 import BooksCard from './BooksCard.vue';
+import Book from './Book.vue';
 
 export default {
   data() {
     return {
       listView: false,
+      selectedBook: null,
     };
+  },
+  methods: {
+    onSelected({ item }) {
+      this.selectedBook = item;
+      this.$bvModal.show('book-card-modal');
+    },
   },
   components: {
     BooksRow,
     BooksCard,
     TheModalItem,
+    Book,
   },
   computed: {
     ...mapState('books', ['items']),
