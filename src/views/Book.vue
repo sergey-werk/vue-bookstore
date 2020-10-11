@@ -6,7 +6,7 @@
         by&nbsp;
         <span v-for="(author, i) in authors" :key="i">
         <span v-if="i>0">{{ ', ' }}</span>
-        <router-link :to="`/authors/${author.id}`">{{ author.name }}</router-link>
+        <router-link :to="`/authors/${author.id} | base_url`">{{ author.name }}</router-link>
         </span>
       </p>
       <p v-else>
@@ -79,7 +79,7 @@ export default {
     }),
     ...mapGetters('authors', {
       authorsLoading: 'isLoading',
-      getAuthorByBookId: 'byBookId',
+      getAuthorsByBookId: 'byBookId',
     }),
   },
   async mounted() {
@@ -92,7 +92,7 @@ export default {
 
     const authors = this.getAuthorsByBookId(this.book.id);
     if (!authors || !authors.lengh) { // authors not loaded
-      await this.$store.dispatch('authors/fetchAuthors');
+      await this.$store.dispatch('authors/fetch');
       this.authors = this.getAuthorsByBookId(this.book.id); // retry
     }
   },
