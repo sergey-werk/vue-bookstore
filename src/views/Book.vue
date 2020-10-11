@@ -3,7 +3,15 @@
   <section class="book-item" v-if="book">
     <header>
       <h1>{{ book.title }}</h1>
-      <p class="book-authors">by {{ book.authors }}</p>
+      <p class="book-authors" v-if="authors">
+        by&nbsp;
+        <span v-for="(author, i) in authors" :key="i">
+        <span v-if="i>0">{{ ', ' }}</span>
+        <router-link :to="`/authors/${author.id}`">
+          {{ author.name }}
+        </router-link>
+        </span>
+      </p>
     </header>
     <p class="book-subtitle">
       {{ book.subtitle }}
@@ -53,6 +61,7 @@ export default {
         isbn13: 'ISBN-13',
         pages: 'Pages',
       },
+      authors: null,
     };
   },
   props: {
@@ -61,19 +70,27 @@ export default {
   },
   computed: {
     ...mapGetters('books', ['getBookById']),
+    ...mapGetters('authors', ['getAuthorsByBookId']),
   },
   methods: {
     getBook() {
       return this.bookObj ? this.bookObj : this.getBookById(this.id);
     },
+    getAuthors() {
+      return this.getAuthorsByBookId(this.book.id);
+    },
   },
-  mounted() {
+  async mounted() {
     this.book = this.getBook();
 
     if (!this.book) { // page opened with a direct link
-      this.$store.dispatch('books/fetchBooks').then(() => {
-        this.book = this.getBook();
-      });
+      await this.$store.dispatch('books/fetchBooks');
+      this.book = this.getBook();
+    }
+    const authors = this.getAuthors();
+    if (!authors || !authors.lengh) { // authors not loaded
+      await this.$store.dispatch('authors/fetchAuthors');
+      this.authors = this.getAuthors();
     }
   },
   // TODO: fetch authors.

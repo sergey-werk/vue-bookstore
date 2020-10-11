@@ -12,18 +12,22 @@ const state = {
 };
 
 const getters = {
-  author: (_state) => (id) => {
+  getAuthorById: (_state) => (id) => {
     const found = _state.items.find((item) => item.id === id);
+    return found;
+  },
+  getAuthorsByBookId: (_state) => (id) => {
+    const found = _state.items.filter((item) => item.books.includes(id));
     return found;
   },
 };
 
 const actions = {
-  fetchAuthors: ({ commit, state: { items } }) => {
+  fetchAuthors: async ({ commit, state: { items } }) => {
     if (!items.length) {
       commit('setLoading', true, { root: true });
     }
-    client.fetchItems('/authors.json')
+    await client.fetchItems('/authors.json')
       .finally(() => commit('setLoading', false, { root: true }))
       .then((data) => commit('AUTHORS_SET', data));
   },
