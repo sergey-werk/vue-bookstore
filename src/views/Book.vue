@@ -12,6 +12,7 @@
         </router-link>
         </span>
       </p>
+      <p v-else>by&nbsp;{{ book.authors }}</p>
     </header>
     <p class="book-subtitle">
       {{ book.subtitle }}
