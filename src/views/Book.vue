@@ -22,7 +22,7 @@
       <div class="book-cover flex-shrink-1">
         <img :src="book.image | base_url" alt="Book cover" />
       </div>
-      <div class="mr-auto mt-auto mb-auto w-50 flex-column">
+      <div class="mr-auto mt-auto mb-auto flex-column">
         <p
           v-for="(field, key) in show_fields"
           :key="key"
@@ -112,7 +112,8 @@ export default {
 }
 
 .book-item .book-field {
-  margin-bottom: 0;
+  line-height: 1em;
+  margin: 0.5em 0;
 }
 
 .book-item .book-field-value {
