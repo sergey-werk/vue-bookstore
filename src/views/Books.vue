@@ -9,7 +9,7 @@
     <p>
       <b-button variant="success"><b-icon icon="plus-circle" /> Add </b-button>
     </p>
-    <TheModalItem id="book-card-modal" size="md" >
+    <TheModalItem id="book-card-modal" size="lg" >
       <Book :bookObj="selectedBook" />
     </TheModalItem>
     <b-spinner label="Loading..." v-if="this.$store.state.loading"></b-spinner>

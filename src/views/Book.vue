@@ -10,10 +10,10 @@
     </p>
 
     <div class="d-flex flex-sm-row flex-column">
-      <div class="p-0">
-        <img class="book-cover" :src="book.image | base_url" alt="Book cover" />
+      <div class="book-cover flex-shrink-1">
+        <img :src="book.image | base_url" alt="Book cover" />
       </div>
-      <div class="mr-auto mt-auto mb-auto flex-column">
+      <div class="mr-auto mt-auto mb-auto w-50 flex-column">
         <p
           v-for="(field, key) in show_fields"
           :key="key"
@@ -88,9 +88,15 @@ export default {
   margin-right: 1en;
   color: lightslategray;
 }
+
+.book-item .book-cover img {
+  max-width:100%;
+}
+
 .book-item .book-field {
   margin-bottom: 0;
 }
+
 .book-item .book-field-value {
   font-style: italic;
 }
