@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 <template>
   <section class="book-item" v-if="book">
     <header>
@@ -7,12 +6,13 @@
         by&nbsp;
         <span v-for="(author, i) in authors" :key="i">
         <span v-if="i>0">{{ ', ' }}</span>
-        <router-link :to="`/authors/${author.id}`">
-          {{ author.name }}
-        </router-link>
+        <router-link :to="`/authors/${author.id}`">{{ author.name }}</router-link>
         </span>
       </p>
-      <p v-else>by&nbsp;{{ book.authors }}</p>
+      <p v-else>
+        by {{ book.authors }}
+        <b-spinner small label="Loading..." type="grow" v-if="authorsLoading" />
+      </p> <!-- todo: show spinner when loading -->
     </header>
     <p class="book-subtitle">
       {{ book.subtitle }}
@@ -43,16 +43,24 @@
       </p>
     </div>
   </section>
+  <section v-else-if="booksLoading">
+    <b-spinner label="Loading..."/>
+  </section>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 
 export default {
-  name: 'Book', // Prevent 'Anonymous component' in devtools.
+  name: 'Book', // FIXME: ? is there any other way to prevent 'Anonymous component' in devtools?
+  props: {
+    id: Number, // FIXME: how to cast str to int here?
+    bookObj: Object, // Pass an object directly, when including in templates.
+  },
   data() {
     return {
       book: null,
+      authors: null,
       show_fields: {
         price: 'Price',
         publisher: 'Published by',
@@ -62,38 +70,31 @@ export default {
         isbn13: 'ISBN-13',
         pages: 'Pages',
       },
-      authors: null,
     };
   },
-  props: {
-    id: Number, // FIXME: how to cast to int?
-    bookObj: Object, // Pass object directly without calling getters.
-  },
   computed: {
-    ...mapGetters('books', ['getBookById']),
-    ...mapGetters('authors', ['getAuthorsByBookId']),
-  },
-  methods: {
-    getBook() {
-      return this.bookObj ? this.bookObj : this.getBookById(this.id);
-    },
-    getAuthors() {
-      return this.getAuthorsByBookId(this.book.id);
-    },
+    ...mapGetters('books', {
+      booksLoading: 'isLoading',
+      getBookById: 'byId',
+    }),
+    ...mapGetters('authors', {
+      authorsLoading: 'isLoading',
+      getAuthorByBookId: 'byBookId',
+    }),
   },
   async mounted() {
-    this.book = this.getBook();
+    this.book = this.bookObj || this.getBookById(this.id);
 
-    if (!this.book) { // page opened with a direct link
-      await this.$store.dispatch('books/fetchBooks');
-      this.book = this.getBook();
+    if (this.book === undefined) { // like, if page was opened with a direct link.
+      await this.$store.dispatch('books/fetch');
+      this.book = this.getBookById(this.id);
     }
-    const authors = this.getAuthors();
+
+    const authors = this.getAuthorsByBookId(this.book.id);
     if (!authors || !authors.lengh) { // authors not loaded
       await this.$store.dispatch('authors/fetchAuthors');
-      this.authors = this.getAuthors();
+      this.authors = this.getAuthorsByBookId(this.book.id); // retry
     }
   },
-  // TODO: fetch authors.
 };
 </script>

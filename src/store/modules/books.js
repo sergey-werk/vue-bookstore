@@ -1,8 +1,6 @@
-import client from '@/api/client';
+import Crud from '@/store/classes/crud';
 
-const state = {
-  items: [
-    /*
+/* Book item:
     {
       id: 0,
       title: 'Getting to Know Vue.js',
@@ -20,39 +18,21 @@ const state = {
       image: '/bookcovers/9781484237809.png',
       url: 'https://itbook.store/books/9781484237809',
     },
-  */],
-  selectedItem: '',
-};
+  */
 
+const crud = new Crud(`${process.env.BASE_URL}books.json`);
+
+const state = {
+  ...crud.state,
+};
 const getters = {
-  getBookById: (_state) => (id) => {
-    const found = _state.items.find((item) => item.id === id);
-    return found;
-  },
+  ...crud.getters,
 };
-
 const actions = {
-  fetchBooks: async ({ commit, state: { items } }) => {
-    if (!items.length) {
-      commit('setLoading', true, { root: true });
-    }
-    await client.fetchItems('/books.json')
-      .finally(() => commit('setLoading', false, { root: true }))
-      .then((data) => commit('BOOKS_SET', data));
-  },
-  addBook: async ({ commit }, payload) => {
-    // FIX: Not implemented yet
-    commit('BOOK_ADD', payload);
-  },
+  ...crud.actions,
 };
-
 const mutations = {
-  BOOKS_SET: (_, payload) => {
-    _.items = payload; // eslint-disable-line no-param-reassign
-  },
-  BOOK_ADD: (_, payload) => {
-    _.items.push(payload);
-  },
+  ...crud.mutations,
 };
 
 export default {

@@ -7,7 +7,7 @@
           v-model="filter"
           type="search"
           id="filterInput"
-          placeholder="Type to find"
+          placeholder="Type to find:"
         ></b-form-input>
         <b-input-group-append>
           <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
@@ -25,14 +25,15 @@
       responsive="sm"
       sort-icon-left
       @filtered="onFiltered"
+      v-if="items"
     >
-      <template v-slot:cell(n_books)="data">
+    <template v-slot:cell(n_books)="data">
         <b-badge :variant="data.item.books.length > 1 ? 'info' : 'light'">
           {{ data.item.books.length }}</b-badge
         >
       </template>
     </b-table>
-    <b-spinner label="Loading..." v-if="this.$store.state.loading"></b-spinner>
+    <b-spinner label="Loading..." v-if="authorsLoading"></b-spinner>
     <b-pagination
       v-show="totalRows > perPage"
       v-model="currentPage"
@@ -43,7 +44,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -65,12 +66,18 @@ export default {
     };
   },
   computed: {
-    ...mapState('authors', ['items']),
-    itemsCount() { return this.items.length; },
+    ...mapGetters('books', {
+      authorsLoading: 'isLoading',
+      getAuthorById: 'byId',
+    }),
+    ...mapState('authors', ['items', 'selectedItems']),
+    itemsCount() {
+      return this.items.length;
+    },
   },
-  mounted() {
-    if (!this.items.length) {
-      this.$store.dispatch('authors/fetchAuthors');
+  async mounted() {
+    if (!this.itemsCount) {
+      await this.$store.dispatch('authors/fetch');
     }
     this.totalRows = this.itemsCount;
   },

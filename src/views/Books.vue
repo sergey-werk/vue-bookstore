@@ -1,18 +1,22 @@
 <template>
   <div class="books-catalog container-fluid content-row">
     <h1>Books Catalog</h1>
-    <p>
-      <b-form-checkbox v-model="listView" name="check-button" switch>
+    <div class="d-flex mb-3 justify-content-between books-catalog-controls">
+      <b-form-checkbox class="ml-auto m-2 p-2" v-model="listView" name="check-button" switch>
         List view
       </b-form-checkbox>
-    </p>
-    <p>
-      <b-button variant="success"><b-icon icon="plus-circle" /> Add </b-button>
-    </p>
+      <b-button class="m-2" variant="success">
+        <b-icon icon="plus-circle" /> Add&nbsp;
+      </b-button>
+    </div>
+    <div class="d-flex justify-content-center mb-3" v-if="booksLoading">
+      <b-spinner label="Loading..."></b-spinner>
+    </div>
+
     <TheModalItem id="book-card-modal" size="lg" >
-      <Book :bookObj="selectedBook" />
+      <Book :bookObj="modalBook" />
     </TheModalItem>
-    <b-spinner label="Loading..." v-if="this.$store.state.loading"></b-spinner>
+
     <div class="row" v-if="!listView">
       <div
         v-for="book in items"
@@ -39,22 +43,23 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import TheModalItem from '@/components/TheModalItem.vue';
 import BooksRow from './BooksRow.vue';
 import BooksCard from './BooksCard.vue';
 import Book from './Book.vue';
 
 export default {
+  name: 'Books',
   data() {
     return {
-      listView: false,
-      selectedBook: null,
+      modalBook: null, // book in modal popup
+      listView: false, // TODO: move to state, make url parameter
     };
   },
   methods: {
     onSelected({ item }) {
-      this.selectedBook = item;
+      this.modalBook = item;
       this.$bvModal.show('book-card-modal');
     },
   },
@@ -65,11 +70,15 @@ export default {
     Book,
   },
   computed: {
-    ...mapState('books', ['items']),
+    ...mapGetters('books', {
+      booksLoading: 'isLoading',
+      getBookById: 'byId',
+    }),
+    ...mapState('books', ['items', 'selectedItems']),
   },
   mounted() {
     if (!this.items.length) {
-      this.$store.dispatch('books/fetchBooks');
+      this.$store.dispatch('books/fetch');
     }
   },
 };
