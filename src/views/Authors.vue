@@ -33,7 +33,11 @@
         >
       </template>
     </b-table>
-    <b-spinner label="Loading..." v-if="authorsLoading"></b-spinner>
+
+    <div class="d-flex justify-content-center mb-3" v-if="authorsLoading">
+      <b-spinner label="Loading..."></b-spinner>
+    </div>
+
     <b-pagination
       v-show="totalRows > perPage"
       v-model="currentPage"
@@ -66,7 +70,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('books', {
+    ...mapGetters('authors', {
       authorsLoading: 'isLoading',
       getAuthorById: 'byId',
     }),
