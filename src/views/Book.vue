@@ -6,13 +6,13 @@
         by&nbsp;
         <span v-for="(author, i) in authors" :key="i">
         <span v-if="i>0">{{ ', ' }}</span>
-        <router-link :to="`/authors/${author.id} | base_url`">{{ author.name }}</router-link>
+        <router-link :to="`/authors/${author.id}`| base_url">{{ author.name }}</router-link>
         </span>
       </p>
       <p v-else>
         by {{ book.authors }}
         <b-spinner small label="Loading..." type="grow" v-if="authorsLoading" />
-      </p> <!-- todo: show spinner when loading -->
+      </p>
     </header>
     <p class="book-subtitle">
       {{ book.subtitle }}
@@ -69,6 +69,7 @@ export default {
         isbn10: 'ISBN-10',
         isbn13: 'ISBN-13',
         pages: 'Pages',
+        rating: 'Rating',
       },
     };
   },
