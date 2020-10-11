@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid content-row">
-    <h1>Authors List</h1>
+    <h1>Authors</h1>
     <p>
       <b-input-group style="max-width: 12em">
         <b-form-input
@@ -22,6 +22,7 @@
       :current-page="currentPage"
       :per-page="perPage"
       :filter="filter"
+      filter-included-fields="name"
       responsive="sm"
       sort-icon-left
       @filtered="onFiltered"

@@ -1,13 +1,17 @@
 <template>
-  <div class="books-catalog container-fluid content-row">
-    <h1>Books Catalog</h1>
-    <div class="d-flex mb-3 justify-content-between books-catalog-controls">
-      <b-form-checkbox class="ml-auto m-2 p-2" v-model="listView" name="check-button" switch>
-        List view
-      </b-form-checkbox>
-      <b-button class="m-2" variant="success">
-        <b-icon icon="plus-circle" /> Add&nbsp;
-      </b-button>
+  <div>
+    <h1>Books</h1>
+    <div class="d-flex mb-3 books-catalog-controls">
+      <div class="m-2">
+        <b-button variant="success">
+          <b-icon icon="plus-circle" /> Add&nbsp;
+        </b-button>
+      </div>
+      <div class="m-2 p-2">
+        <b-form-checkbox v-model="listView" name="check-button" switch>
+          List view
+        </b-form-checkbox>
+      </div>
     </div>
     <div class="d-flex justify-content-center mb-3" v-if="booksLoading">
       <b-spinner label="Loading..."></b-spinner>

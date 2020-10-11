@@ -25,6 +25,7 @@
 // import { mapMutations, mapGetters } from 'vuex';
 
 export default {
+  name: 'BookCard',
   props: ['item'],
   methods: {
     onClick() {
