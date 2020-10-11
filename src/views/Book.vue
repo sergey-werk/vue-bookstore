@@ -97,34 +97,3 @@ export default {
   // TODO: fetch authors.
 };
 </script>
-
-<style scoped>
-.book-item {
-  max-width: 50em;
-}
-.book-item label {
-  margin-right: 1en;
-  color: lightslategray;
-}
-
-.book-item .book-cover img {
-  max-width:100%;
-}
-
-.book-item .book-field {
-  line-height: 1em;
-  margin: 0.5em 0;
-}
-
-.book-item .book-field-value {
-  font-style: italic;
-}
-
-.book-item .book-subtitle {
-  font-style: italic;
-}
-
-.book-item .book-price .book-field-value {
-  font-weight: bolder;
-}
-</style>

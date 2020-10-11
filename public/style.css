@@ -13,3 +13,44 @@
   border-bottom: 3px solid red;
   margin-bottom: -3px;
 }
+
+/* book-item style and responsiveness */
+.book-item {
+  max-width: 50em;
+}
+.book-item label {
+  margin-right: 1en;
+  color: lightslategray;
+}
+
+.book-item .book-cover img {
+  max-width: 100%;
+}
+
+.book-item .book-field {
+  line-height: 0.8em;
+  margin: 1em;
+}
+
+.book-item .book-field label {
+  font-style: italic;
+  padding-right: 0.2em;
+}
+
+.book-item .book-field-value {
+  font-style: italic;
+  display: inline-block;
+}
+
+.book-item .book-isbn10 .book-field-value,
+.book-item .book-isbn13 .book-field-value{
+  min-width: 10rem;
+}
+
+.book-item .book-subtitle {
+  font-style: italic;
+}
+
+.book-item .book-price .book-field-value {
+  font-weight: bolder;
+}
