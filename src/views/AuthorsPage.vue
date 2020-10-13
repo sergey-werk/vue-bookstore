@@ -1,3 +1,4 @@
+<!-- Here we give a try to b-table component. -->
 <template>
   <div class="container-fluid content-row">
     <h1>Authors</h1>

@@ -52,7 +52,7 @@
 import { mapGetters } from 'vuex';
 
 export default {
-  name: 'Book', // FIXME: ? is there any other way to prevent 'Anonymous component' in devtools?
+  name: 'BookInfo', // FIXME: ? is there any other way to prevent 'Anonymous component' in devtools?
   props: {
     id: Number, // FIXME: how to cast str to int here?
     bookObj: Object, // Pass an object directly, when including in templates.
