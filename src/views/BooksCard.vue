@@ -15,7 +15,6 @@
         @click.native.prevent="onClick"
         >
         {{ item.title }}
-        {{ item.rating }}
       </router-link>
     </b-card-title>
     <b-card-sub-title>
