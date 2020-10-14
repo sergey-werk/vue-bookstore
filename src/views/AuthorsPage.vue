@@ -23,7 +23,7 @@
       :current-page="currentPage"
       :per-page="perPage"
       :filter="filter"
-      filter-included-fields="name"
+      :filter-included-fields="['name']"
       responsive="sm"
       sort-icon-left
       @filtered="onFiltered"
