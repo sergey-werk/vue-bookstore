@@ -46,12 +46,15 @@
           <BooksCard
             class="w-100 mb-4"
             :item="book"
-            @selected="onSelected"
+            @modal="onModal"
           />
         </div>
       </div>
       <div v-else-if="isListView">
-        <CrudTable :rows=filteredItems :key_field="'id'" />
+        <CrudTable
+          :rows=filteredItems
+          key_field="id"
+          />
       </div>
     </section>
     <p v-show="!!filterStr & filteredItems.length == 0"> No match found.</p>
@@ -75,7 +78,7 @@ export default {
     };
   },
   methods: {
-    onSelected({ item }) {
+    onModal({ item }) {
       this.modalBook = item;
       this.$bvModal.show('book-card-modal');
     },

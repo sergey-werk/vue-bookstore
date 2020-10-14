@@ -6,9 +6,16 @@ Inspired by vue-good-table.
 <template>
 <table class="table" :class="{'table-sm': compact}">
   <template>
-    <thead
-      @on-toggle-select-all="toggleSelectAll"
-      >
+    <thead>
+      <th
+        scope="col"
+        @click="toggleSelectAll"
+        >
+        <input type="checkbox" :checked="isAllSelected" />
+      </th>
+      <th v-for="(title, field) in columns" :key="field">
+        {{ title }}
+      </th>
     </thead>
   </template>
   <template>
@@ -19,14 +26,16 @@ Inspired by vue-good-table.
       >
       <th
         scope="row"
-        @clicked="onCheckboxClicked"
+        @click="onCheckboxClicked(row, index, $event)"
         >
         <input
           type="checkbox"
           :checked="row.selected"
           />
       </th>
-      <td>{{ row.title }}</td>
+      <td v-for="(title, field) in columns" :key="field">
+        {{ row[field] }}
+      </td>
     </tr>
   </tbody>
   </template>
@@ -39,7 +48,15 @@ import Vue from 'vue';
 export default {
   name: 'crud-table',
   props: {
-    columns: {},
+    columns: {
+      type: [Array, Object],
+      default() {
+        return {
+          title: 'Title',
+          price: 'Price',
+        };
+      },
+    },
     rows: {
       type: Array,
       required: true,
@@ -64,29 +81,74 @@ export default {
     };
   },
   watch: {
-
+    originalRows: {
+      handler(newValue, oldValue) {
+        if (oldValue.lengh > newValue.length) {
+          // TODO: a better solution is to implement filter method inside CrudTable.
+          this.unselectAll();
+        }
+      },
+    },
   },
   computed: {
-  //  originalRows -> sortedRows
-    sortedRows() {
-      return this.rows;
+  /*  originalRows -> sortedRows */
+    sortedRows() { // TODO: sorging
+      return this.originalRows;
     },
     originalRows() {
+      // FIXME: How to implement local reactive copy to not to affect vuex store instance?
+      // _.deepCopy ?
       return this.rows;
+    },
+    selectedRows() {
+      const selectedRows = [];
+      this.sortedRows.forEach((row) => {
+        if (row.selected) {
+          selectedRows.push(row);
+        }
+      });
+      // Prevent triggering observers when table was sorted
+      return selectedRows.sort((r1, r2) => r1[this.key_field] - r2[this.key_field]);
+    },
+    isAllSelected() {
+      return this.originalRows.length
+          && this.selectedRows.length === this.originalRows.length;
     },
   },
   methods: {
-    toggleSelectAll() {
-      return 0;
-    },
     onCheckboxClicked(row) {
-      console.log('onCheckboxClicked', row);
       Vue.set(row, 'selected', !row.selected);
     },
     onRowDoubleClicked(row) {
-      console.log('onRowDoubleClicked', row);
-      Vue.set(row, 'selected', !row.selected);
+      this.onCheckboxClicked(row);
+    },
+    selectAll() {
+      this.sortedRows.forEach((row) => {
+        Vue.set(row, 'selected', true);
+      });
+    },
+    unselectAll() {
+      this.sortedRows.forEach((row) => {
+        // eslint-disable-next-line no-param-reassign
+        Vue.set(row, 'selected', false);
+      });
+    },
+    toggleSelectAll() {
+      if (this.isAllSelected) {
+        this.unselectAll();
+        return;
+      }
+      this.selectAll();
     },
   },
 };
 </script>
+
+<style scoped>
+tr th {
+  width: 1em;
+}
+tr:hover {
+  background-color: lightgrey;
+}
+</style>
