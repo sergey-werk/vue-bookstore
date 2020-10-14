@@ -72,7 +72,12 @@ export default {
 
 <style scoped>
 .books-card.selected {
-  box-shadow: 0 4px 8px 0 lightblue;
+  box-shadow: 0 4px 8px 0 lightslategrey;
+}
+
+.books-card.selected .card-header{
+
+  background-color: lightgray;
 }
 
 .books-card-img {
