@@ -26,7 +26,7 @@
     </div>
     <template v-slot:header>
       <div class="d-flex" @click="onHeaderClicked(item)">
-        <b-form-rating class="book-card-rating" inline readonly no-border
+        <b-form-rating class="books-card-rating" inline disabled no-border
           :value="item.rating"
           v-if="item.rating > 0"
           />
@@ -78,6 +78,10 @@ export default {
 .books-card-img {
   max-height: 350px;
   object-fit: scale-down;
+}
+
+.books-card-rating {
+  background-color: transparent !important;
 }
 
 .card-header {
