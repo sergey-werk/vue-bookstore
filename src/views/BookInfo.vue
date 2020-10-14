@@ -1,18 +1,18 @@
 <template>
-  <section class="book-item" v-if="book">
+  <section class="book-info" v-if="book">
     <header>
       <h1>{{ book.title }}</h1>
       <p class="book-authors" v-if="authors">
         by&nbsp;
         <span v-for="(author, i) in authors" :key="i">
         <span v-if="i>0">{{ ', ' }}</span>
-        <router-link :to="`/authors/${author.id}`">{{ author.name }}</router-link>
+        <router-link :to="`/authors/${author.id}`| base_url">{{ author.name }}</router-link>
         </span>
       </p>
       <p v-else>
         by {{ book.authors }}
         <b-spinner small label="Loading..." type="grow" v-if="authorsLoading" />
-      </p> <!-- todo: show spinner when loading -->
+      </p>
     </header>
     <p class="book-subtitle">
       {{ book.subtitle }}
@@ -52,7 +52,7 @@
 import { mapGetters } from 'vuex';
 
 export default {
-  name: 'Book', // FIXME: ? is there any other way to prevent 'Anonymous component' in devtools?
+  name: 'BookInfo', // FIXME: ? is there any other way to prevent 'Anonymous component' in devtools?
   props: {
     id: Number, // FIXME: how to cast str to int here?
     bookObj: Object, // Pass an object directly, when including in templates.
@@ -69,6 +69,7 @@ export default {
         isbn10: 'ISBN-10',
         isbn13: 'ISBN-13',
         pages: 'Pages',
+        rating: 'Rating',
       },
     };
   },
@@ -79,7 +80,7 @@ export default {
     }),
     ...mapGetters('authors', {
       authorsLoading: 'isLoading',
-      getAuthorByBookId: 'byBookId',
+      getAuthorsByBookId: 'byBookId',
     }),
   },
   async mounted() {
@@ -92,7 +93,7 @@ export default {
 
     const authors = this.getAuthorsByBookId(this.book.id);
     if (!authors || !authors.lengh) { // authors not loaded
-      await this.$store.dispatch('authors/fetchAuthors');
+      await this.$store.dispatch('authors/fetch');
       this.authors = this.getAuthorsByBookId(this.book.id); // retry
     }
   },

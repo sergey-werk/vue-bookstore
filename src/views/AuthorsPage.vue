@@ -1,12 +1,12 @@
+<!-- Here we give a try to b-table component. -->
 <template>
   <div class="container-fluid content-row">
-    <h1>Authors List</h1>
+    <h1>Authors</h1>
     <p>
       <b-input-group style="max-width: 12em">
         <b-form-input
           v-model="filter"
           type="search"
-          id="filterInput"
           placeholder="Type to find:"
         ></b-form-input>
         <b-input-group-append>
@@ -22,6 +22,7 @@
       :current-page="currentPage"
       :per-page="perPage"
       :filter="filter"
+      :filter-included-fields="['name']"
       responsive="sm"
       sort-icon-left
       @filtered="onFiltered"

@@ -12,7 +12,6 @@ export default class {
       url, // API endpoint
       isLoading: false,
       items: [],
-      selectedItems: [], // by ref
     };
 
     this.getters = {
