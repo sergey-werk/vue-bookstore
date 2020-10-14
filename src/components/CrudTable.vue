@@ -22,7 +22,8 @@ Inspired by vue-good-table.
   <tbody>
     <tr v-for="(row, index) in sortedRows"
       :key="row[key_field]"
-      @dblclick="onRowDoubleClicked(row, index, $event)"
+      @click="onRowClicked(row, index, $event)"
+      :class="{'selected': row.selected}"
       >
       <th
         scope="row"
@@ -119,7 +120,7 @@ export default {
     onCheckboxClicked(row) {
       Vue.set(row, 'selected', !row.selected);
     },
-    onRowDoubleClicked(row) {
+    onRowClicked(row) {
       this.onCheckboxClicked(row);
     },
     selectAll() {
@@ -149,6 +150,9 @@ tr th {
   width: 1em;
 }
 tr:hover {
-  background-color: lightgrey;
+  background-color: lightgray;
+}
+tr.selected {
+  background-color: lightgray;
 }
 </style>
