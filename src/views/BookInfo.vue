@@ -1,5 +1,5 @@
 <template>
-  <section class="book-item" v-if="book">
+  <section class="book-info" v-if="book">
     <header>
       <h1>{{ book.title }}</h1>
       <p class="book-authors" v-if="authors">

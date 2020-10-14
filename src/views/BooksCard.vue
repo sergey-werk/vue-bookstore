@@ -69,32 +69,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.books-card.selected {
-  box-shadow: 0 4px 8px 0 lightslategrey;
-}
-
-.books-card.selected .card-header{
-
-  background-color: lightgray;
-}
-
-.books-card-img {
-  max-height: 350px;
-  object-fit: scale-down;
-}
-
-.books-card-rating {
-  background-color: transparent !important;
-}
-
-.card-header {
-  padding: 0;
-}
-
-.card-title a {
-  color: darkslategrey;
-  text-decoration: none;
-}
-</style>
