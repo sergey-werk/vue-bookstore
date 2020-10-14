@@ -25,7 +25,7 @@
       <b-card-text />
     </div>
     <template v-slot:header>
-      <div class="d-flex" @click="onHeaderClicked(item)">
+      <div class="d-flex" @click.prevent="onHeaderClicked(item)">
         <b-form-rating class="books-card-rating" inline disabled no-border
           :value="item.rating"
           v-if="item.rating > 0"
