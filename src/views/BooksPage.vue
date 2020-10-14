@@ -15,6 +15,19 @@
       </div>
     </div>
 
+    <p>
+      <b-input-group style="max-width: 12em">
+        <b-form-input
+          v-model="filter"
+          type="search"
+          placeholder="Type to find:"
+        ></b-form-input>
+        <b-input-group-append>
+          <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
+        </b-input-group-append>
+      </b-input-group>
+    </p>
+
     <div class="d-flex justify-content-center mb-3" v-if="isBooksLoading">
       <b-spinner label="Loading..."></b-spinner>
     </div>
@@ -23,27 +36,25 @@
       <Book :bookObj="modalBook" />
     </TheModalItem>
 
-    <div class="row" v-if="!isListView">
-      <div
-        class="book-card col-xs-12 col-sm-6 col-md-4 d-flex"
-        v-for="book in items"
-        :key="book.id"
-      >
-        <BooksCard
-          class="w-100 mb-4"
-          :item="book"
-          @selected="onSelected"
-        ></BooksCard>
-      </div>
-    </div>
-
-    <div v-else-if="isListView">
-      <CrudTable
-        :rows=items
-        :key='id'
+    <section v-show="!!filteredItems">
+      <div class="row" v-if="!isListView">
+        <div
+          class="book-card col-xs-12 col-sm-6 col-md-4 d-flex"
+          v-for="book in filteredItems"
+          :key="book.id"
         >
-      </CrudTable>
-    </div>
+          <BooksCard
+            class="w-100 mb-4"
+            :item="book"
+            @selected="onSelected"
+          />
+        </div>
+      </div>
+      <div v-else-if="isListView">
+        <CrudTable :rows=filteredItems :key_field="'id'" />
+      </div>
+    </section>
+    <p v-show="!!filterStr & filteredItems.length == 0"> No match found.</p>
   </div>
 </template>
 
@@ -60,6 +71,7 @@ export default {
     return {
       modalBook: null, // book in modal popup
       isListView: true, // TODO: move to state?, make url parameter
+      filter: '',
     };
   },
   methods: {
@@ -80,6 +92,12 @@ export default {
       getBookById: 'byId',
     }),
     ...mapState('books', ['items', 'selectedItems']),
+    filterStr() {
+      return this.filter.trim().toLowerCase();
+    },
+    filteredItems() {
+      return this.items.filter((item) => item.title.toLowerCase().includes(this.filterStr));
+    },
   },
   mounted() {
     if (!this.items.length) {

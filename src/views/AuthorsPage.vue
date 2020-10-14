@@ -7,7 +7,6 @@
         <b-form-input
           v-model="filter"
           type="search"
-          id="filterInput"
           placeholder="Type to find:"
         ></b-form-input>
         <b-input-group-append>
