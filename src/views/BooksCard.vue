@@ -31,7 +31,7 @@
           v-if="item.rating > 0"
           />
         <b-form-checkbox
-          v-model="item.selected"
+          :checked="item.selected"
           class="ml-auto p-2"
           />
       </div>
@@ -72,7 +72,7 @@ export default {
 
 <style scoped>
 .books-card.selected {
-  border-color: blue;
+  box-shadow: 0 4px 8px 0 lightblue;
 }
 
 .books-card-img {
