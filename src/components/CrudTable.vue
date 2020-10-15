@@ -58,7 +58,6 @@ export default {
       default() {
         return {
           title: 'Title',
-          price: 'Price',
         };
       },
     },
@@ -96,9 +95,9 @@ export default {
     },
   },
   computed: {
-  /*  originalRows -> sortedRows */
-    sortedRows() { // TODO: sorging
-      return this.originalRows;
+  /* TODO: originalRows -> [filteredRows] -> sortedRows -> paginatedRows */
+    sortedRows() {
+      return this.originalRows; // TODO: sorging
     },
     originalRows() {
       // FIXME: How to implement local reactive copy to not to affect vuex store instance?
@@ -112,7 +111,7 @@ export default {
           selectedRows.push(row);
         }
       });
-      // Prevent triggering observers when table was sorted
+      // Prevent triggering observers when table was sorted:
       return selectedRows.sort((r1, r2) => r1[this.key_field] - r2[this.key_field]);
     },
     isAllSelected() {
@@ -121,8 +120,9 @@ export default {
     },
   },
   methods: {
+    // eslint-disable-next-line no-unused-vars
     onCheckboxChanged(row, where) {
-      console.log('called from', where);
+      // console.log('called from', where);
       Vue.set(row, 'selected', !row.selected);
     },
     selectAll() {
