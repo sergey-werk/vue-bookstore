@@ -20,18 +20,22 @@ Inspired by vue-good-table.
   </template>
   <template>
   <tbody>
-    <tr v-for="(row, index) in sortedRows"
+    <!-- Just an illustration of unwanted event bubbling. -->
+    <tr v-for="row in sortedRows"
       :key="row[key_field]"
-      @click="onRowClicked(row, index, $event)"
+      @click="onCheckboxChanged(row, 'row', $event)"
       :class="{'selected': row.selected}"
       >
+      <!-- Illustration of event modifiers chainging.
+        NB: order is important!, .self.stop would not work. -->
       <th
         scope="row"
-        @click="onCheckboxClicked(row, index, $event)"
+        @click.stop.self="onCheckboxChanged(row, 'th', $event)"
         >
         <input
           type="checkbox"
           :checked="row.selected"
+          @change="onCheckboxChanged(row, 'checkbox', $event)"
           />
       </th>
       <td v-for="(title, field) in columns" :key="field">
@@ -117,11 +121,9 @@ export default {
     },
   },
   methods: {
-    onCheckboxClicked(row) {
+    onCheckboxChanged(row, where) {
+      console.log('called from', where);
       Vue.set(row, 'selected', !row.selected);
-    },
-    onRowClicked(row) {
-      this.onCheckboxClicked(row);
     },
     selectAll() {
       this.sortedRows.forEach((row) => {
