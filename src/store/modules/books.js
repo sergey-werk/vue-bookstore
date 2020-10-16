@@ -27,8 +27,6 @@ const state = {
 };
 const getters = {
   ...crud.getters,
-  years: ({ items }) => Array.from(new Set(items.map((o) => o.year)))
-    .map(Number).sort(),
 };
 const actions = {
   ...crud.actions,

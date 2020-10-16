@@ -29,31 +29,25 @@
         </b-input-group-append>
       </b-input-group>
     </div>
-
     <div class="d-block p-0 mx-4" style="min-width: 20%; max-width: 100%;">
-      <span>Filter by year:</span>
-      <vue-slider
+      <FilterByRange
+        v-if="booksYears.length > 0"
         v-model="filterYear"
-        v-if="getBooksYears.length > 0"
-        :data="getBooksYears"
+        :data="booksYears"
         :marks="filterYearMarks"
-        :enable-cross="false"
-        :lazy="true"
-        :adsorb="true"
-        />
+        >
+        <span> Filter by year: </span>
+      </FilterByRange>
     </div>
-
     <div class="d-block p-0 mx-4" style="min-width: 20%; max-width: 100%;">
-      <span>Filter by price:</span>
-      <vue-slider
-        v-model="filterPrice"
+      <FilterByRange
         v-if="booksPrices.length > 0"
+        v-model="filterPrice"
         :data="booksPrices"
         :marks="filterPriceMarks"
-        :enable-cross="false"
-        :lazy="true"
-        :adsorb="true"
-        />
+        >
+        <span> Filter by price: </span>
+      </FilterByRange>
     </div>
   </div>
 
@@ -65,7 +59,7 @@
     <Book :bookObj="modalBook" />
   </TheModalItem>
 
-  <section v-show="!!filteredItems">
+  <section v-show="filteredItems.length">
     <!-- Card view -->
     <div class="row" v-if="!isListView">
       <div
@@ -89,17 +83,15 @@
         />
     </div>
   </section>
-  <p v-show="!!filterTitleStr & filteredItems.length == 0"> No match found.</p>
+  <p v-show="this.items.length && !filteredItems.length"> No match found.</p>
 </div>
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex';
-import VueSlider from 'vue-slider-component';
-import 'vue-slider-component/theme/default.css';
-
 import TheModalItem from '@/components/TheModalItem.vue';
 import CrudTable from '@/components/CrudTable.vue';
+import FilterByRange from '@/components/FilterByRange.vue';
 import BooksCard from './BooksCard.vue';
 import Book from './BookInfo.vue';
 
@@ -142,7 +134,7 @@ export default {
     BooksCard,
     TheModalItem,
     Book,
-    VueSlider,
+    FilterByRange,
   },
   computed: {
     ...mapGetters('books', {
@@ -151,21 +143,25 @@ export default {
       booksAttrUnique: 'attrUnique',
     }),
     ...mapState('books', ['items', 'selectedItems']),
-    filterTitleStr() {
-      return this.filterTitle.trim().toLowerCase();
-    },
     filteredItems() {
       return this.items
         .filter((item) => item.title.toLowerCase().includes(this.filterTitleStr))
         .filter((item) => Number(item.year).between(...this.filterYear))
         .filter((item) => forceNumber(item.price).between(...this.filterPrice));
     },
+    filterTitleStr() {
+      return this.filterTitle.trim().toLowerCase();
+    },
     filterYearMarks() {
       const years = this.booksAttrUnique('year').map(Number);
       return years.length < 5 ? years : [];
     },
+    booksYears() {
+      return this.booksAttrUnique('year', Number).sort((a, b) => a - b);
+    },
     booksPrices() {
-      return this.booksAttrUnique('price').map(forceNumber).sort((a, b) => a - b);
+      return this.booksAttrUnique('price',
+        (x) => Math.floor(forceNumber(x))).sort((a, b) => a - b);
     },
     filterPriceMarks() {
       const [low, high] = this.filterPrice;
