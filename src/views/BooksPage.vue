@@ -160,8 +160,10 @@ export default {
       return this.booksAttrUnique('year', Number).sort((a, b) => a - b);
     },
     booksPrices() {
-      return this.booksAttrUnique('price',
+      const prices = this.booksAttrUnique('price',
         (x) => Math.floor(forceNumber(x))).sort((a, b) => a - b);
+      prices[prices.length - 1] += 1; // floor(49.99) -> 49, but we need 50 as an upper limit.
+      return prices;
     },
     filterPriceMarks() {
       const [low, high] = this.filterPrice;
