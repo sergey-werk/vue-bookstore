@@ -163,7 +163,7 @@ export default {
       return this.items
         .filter((item) => item.title.toLowerCase().includes(this.filterTitleStr))
         .filter((item) => Number(item.year).between(...this.filterYear))
-        .filter((item) => forceNumber(item.price).between(...this.filterPrice));
+        .filter((item) => Math.floor(forceNumber(item.price)).between(...this.filterPrice));
     },
     filterTitleStr() {
       return this.filterTitle.trim().toLowerCase();
@@ -176,12 +176,12 @@ export default {
       return this.booksAttrUnique('year', Number).sort((a, b) => a - b);
     },
     booksPrices() {
-      return this.booksAttrUnique('price', forceNumber).sort((a, b) => a - b);
+      return this.booksAttrUnique('price', (x) => Math.floor(forceNumber(x)))
+        .sort((a, b) => a - b);
     },
     filterPriceMarks() {
       const low = Math.min(...this.booksPrices);
       const high = Math.max(...this.booksPrices);
-      console.log(low, high);
       return [low || '', Number.isFinite(high) ? high : ''];
     },
   },
