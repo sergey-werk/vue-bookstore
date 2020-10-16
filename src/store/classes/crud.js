@@ -15,7 +15,11 @@ export default class {
     };
 
     this.getters = {
-      byId: (state) => (id) => state.items.find((o) => o.id === id),
+      byId: ({ items }) => (id) => items.find((o) => o.id === id),
+      attrUnique: ({ items }) => function attrUnique(attr, type = String) {
+        return Array.from(new Set(items.map((o) => o[attr])))
+          .map(type).sort();
+      },
       isLoading: (state) => !!state.isLoading,
     };
 

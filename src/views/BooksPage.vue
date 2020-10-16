@@ -1,83 +1,96 @@
 <!-- Here we use our own BooksTable component. -->
 <template>
-  <div>
-    <h1>Books</h1>
-    <div class="d-flex flex-row flex-wrap mb-3 books-catalog-controls">
-      <div class="m-2">
-        <b-button variant="success">
-          <b-icon icon="plus-circle" /> Add
-        </b-button>
-      </div>
-      <div class="m-2 p-2">
-        <b-form-checkbox v-model="isListView" name="check-button" switch>
-          List view
-        </b-form-checkbox>
-      </div>
+<div>
+  <h1>Books</h1>
+  <div class="d-flex flex-row flex-wrap mb-3 books-catalog-controls">
+    <div class="m-2">
+      <b-button variant="success">
+        <b-icon icon="plus-circle" /> Add
+      </b-button>
     </div>
-
-    <div class="py-4 d-flex flex-row flex-wrap">
-      <div>
-        <b-input-group>
-          <b-form-input
-            v-model="filter"
-            type="search"
-            placeholder="Type to find:"
-            style="max-width: 10em"
-            />
-          <b-input-group-append>
-            <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
-          </b-input-group-append>
-        </b-input-group>
-      </div>
-
-      <div class="d-block p-0 mx-4" style="min-width: 20%; max-width: 100%;">
-        <span>Filter by year:</span>
-        <vue-slider
-          v-model="filterYears"
-          v-if="getBooksYears.length > 0"
-          :data="getBooksYears"
-          :marks="filterYearsMarks"
-          :enable-cross="false"
-          :lazy="true"
-          :adsorb="true"
-          />
-      </div>
+    <div class="m-2 p-2">
+      <b-form-checkbox v-model="isListView" name="check-button" switch>
+        List view
+      </b-form-checkbox>
     </div>
-
-    <div class="d-flex justify-content-center mb-3" v-if="isBooksLoading">
-      <b-spinner label="Loading..."></b-spinner>
-    </div>
-
-    <TheModalItem id="book-card-modal" size="lg">
-      <Book :bookObj="modalBook" />
-    </TheModalItem>
-
-    <section v-show="!!filteredItems">
-      <!-- Card view -->
-      <div class="row" v-if="!isListView">
-        <div
-          class="book-card col-xs-12 col-sm-6 col-md-4 d-flex"
-          v-for="book in filteredItems"
-          :key="book.id"
-        >
-          <BooksCard
-            class="w-100 mb-4"
-            :item="book"
-            @modal="onModal"
-          />
-        </div>
-      </div>
-      <!-- List view -->
-      <div v-else-if="isListView">
-        <CrudTable
-          :rows=filteredItems
-          key_field="id"
-          :columns="listColumns"
-          />
-      </div>
-    </section>
-    <p v-show="!!filterStr & filteredItems.length == 0"> No match found.</p>
   </div>
+
+  <div class="py-4 d-flex flex-row flex-wrap">
+    <div>
+      <b-input-group>
+        <b-form-input
+          v-model="filterTitle"
+          type="search"
+          placeholder="Type to find:"
+          style="max-width: 10em"
+          />
+        <b-input-group-append>
+          <b-button :disabled="!filterTitle" @click="filterTitle = ''">Clear</b-button>
+        </b-input-group-append>
+      </b-input-group>
+    </div>
+
+    <div class="d-block p-0 mx-4" style="min-width: 20%; max-width: 100%;">
+      <span>Filter by year:</span>
+      <vue-slider
+        v-model="filterYear"
+        v-if="getBooksYears.length > 0"
+        :data="getBooksYears"
+        :marks="filterYearMarks"
+        :enable-cross="false"
+        :lazy="true"
+        :adsorb="true"
+        />
+    </div>
+
+    <div class="d-block p-0 mx-4" style="min-width: 20%; max-width: 100%;">
+      <span>Filter by price:</span>
+      <vue-slider
+        v-model="filterPrice"
+        v-if="booksPrices.length > 0"
+        :data="booksPrices"
+        :marks="filterPriceMarks"
+        :enable-cross="false"
+        :lazy="true"
+        :adsorb="true"
+        />
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-center mb-3" v-if="isBooksLoading">
+    <b-spinner label="Loading..."></b-spinner>
+  </div>
+
+  <TheModalItem id="book-card-modal" size="lg">
+    <Book :bookObj="modalBook" />
+  </TheModalItem>
+
+  <section v-show="!!filteredItems">
+    <!-- Card view -->
+    <div class="row" v-if="!isListView">
+      <div
+        class="book-card col-xs-12 col-sm-6 col-md-4 d-flex"
+        v-for="book in filteredItems"
+        :key="book.id"
+      >
+        <BooksCard
+          class="w-100 mb-4"
+          :item="book"
+          @modal="onModal"
+        />
+      </div>
+    </div>
+    <!-- List view -->
+    <div v-else-if="isListView">
+      <CrudTable
+        :rows=filteredItems
+        key_field="id"
+        :columns="listColumns"
+        />
+    </div>
+  </section>
+  <p v-show="!!filterTitleStr & filteredItems.length == 0"> No match found.</p>
+</div>
 </template>
 
 <script>
@@ -97,19 +110,25 @@ Number.prototype.between = function (a, b) {
   return this >= min && this <= max;
 };
 
+function forceNumber(val) {
+  /** Strip non-numeric characters and convert to number. */
+  return Number(String(val).replace(/[^0-9.-]+/g, ''));
+}
+
 export default {
   name: 'Books',
   data() {
     return {
       modalBook: null, // book in modal popup
       isListView: true, // TODO: move to state?, make url parameter
-      filter: '',
       listColumns: {
         title: 'Title',
         year: 'Published in (year)',
         price: 'Price',
       },
-      filterYears: [-Infinity, Infinity], // from, to
+      filterTitle: '',
+      filterYear: [-Infinity, Infinity],
+      filterPrice: [0, Infinity],
     };
   },
   methods: {
@@ -129,27 +148,28 @@ export default {
     ...mapGetters('books', {
       isBooksLoading: 'isLoading',
       getBookById: 'byId',
-      getBooksYears: 'years',
+      booksAttrUnique: 'attrUnique',
     }),
     ...mapState('books', ['items', 'selectedItems']),
-    filterStr() {
-      return this.filter.trim().toLowerCase();
+    filterTitleStr() {
+      return this.filterTitle.trim().toLowerCase();
     },
     filteredItems() {
       return this.items
-        .filter((item) => item.title.toLowerCase().includes(this.filterStr))
-        .filter((item) => Number(item.year).between(...this.filterYears));
+        .filter((item) => item.title.toLowerCase().includes(this.filterTitleStr))
+        .filter((item) => Number(item.year).between(...this.filterYear))
+        .filter((item) => forceNumber(item.price).between(...this.filterPrice));
     },
-    filterYearsDefault() {
-      return [Math.min(...this.getBooksYears), Math.max(...this.getBooksYears)];
+    filterYearMarks() {
+      const years = this.booksAttrUnique('year').map(Number);
+      return years.length < 5 ? years : [];
     },
-    filterYearsMarks() {
-      return this.getBooksYears.length < 5 ? this.getBooksYears : [];
+    booksPrices() {
+      return this.booksAttrUnique('price').map(forceNumber).sort((a, b) => a - b);
     },
-  },
-  watch: {
-    filterYearsDefault() {
-      console.log('filterYearsDefault changed!', this.filterYearsDefault, '_', this.filterYears);
+    filterPriceMarks() {
+      const [low, high] = this.filterPrice;
+      return [low || '', Number.isFinite(high) ? high : ''];
     },
   },
   mounted() {
