@@ -25,6 +25,7 @@
 
 .book-info .book-cover img {
   max-width: 100%;
+  user-select: none;
 }
 
 .book-info .book-field {
@@ -79,4 +80,8 @@
 
 .books-card-rating {
   background-color: transparent !important;
+}
+
+.books-card .card-body {
+  user-select: none;
 }
