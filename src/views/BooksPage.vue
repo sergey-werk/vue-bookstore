@@ -21,7 +21,7 @@
         <b-form-input
           v-model="filterTitle"
           type="search"
-          placeholder="Type to find:"
+          placeholder="Filter by title:"
           style="max-width: 10em"
           />
         <b-input-group-append>
@@ -30,24 +30,40 @@
       </b-input-group>
     </div>
     <div class="d-block p-0 mx-4" style="min-width: 20%; max-width: 100%;">
-      <FilterByRange
+      <RangeSlider
         v-if="booksYears.length > 0"
         v-model="filterYear"
         :data="booksYears"
         :marks="filterYearMarks"
         >
-        <span> Filter by year: </span>
-      </FilterByRange>
+        <span :set="yr=filterYear">
+          by year:&nbsp;
+          <strong>
+            {{ isFinite(yr[0]) ? yr[0] : '' }}
+            <template v-if="isFinite(yr[1]) && yr[1] != yr[0]">
+              – {{ yr[1]}}
+            </template>
+          </strong>
+        </span>
+      </RangeSlider>
     </div>
     <div class="d-block p-0 mx-4" style="min-width: 20%; max-width: 100%;">
-      <FilterByRange
+      <RangeSlider
         v-if="booksPrices.length > 0"
         v-model="filterPrice"
         :data="booksPrices"
         :marks="filterPriceMarks"
         >
-        <span> Filter by price: </span>
-      </FilterByRange>
+        <span :set="pr=filterPrice">
+          by price:&nbsp;
+          <strong>
+            {{ pr[0] || '' }}
+            <template v-if="isFinite(pr[1]) && pr[1] != pr[0]">
+               – {{pr[1]}}
+            </template>
+          </strong>
+        </span>
+      </RangeSlider>
     </div>
   </div>
 
@@ -91,7 +107,7 @@
 import { mapState, mapGetters } from 'vuex';
 import TheModalItem from '@/components/TheModalItem.vue';
 import CrudTable from '@/components/CrudTable.vue';
-import FilterByRange from '@/components/FilterByRange.vue';
+import RangeSlider from '@/components/RangeSlider.vue';
 import BooksCard from './BooksCard.vue';
 import Book from './BookInfo.vue';
 
@@ -134,7 +150,7 @@ export default {
     BooksCard,
     TheModalItem,
     Book,
-    FilterByRange,
+    RangeSlider,
   },
   computed: {
     ...mapGetters('books', {
@@ -160,13 +176,12 @@ export default {
       return this.booksAttrUnique('year', Number).sort((a, b) => a - b);
     },
     booksPrices() {
-      const prices = this.booksAttrUnique('price',
-        (x) => Math.floor(forceNumber(x))).sort((a, b) => a - b);
-      prices[prices.length - 1] += 1; // floor(49.99) -> 49, but we need 50 as an upper limit.
-      return prices;
+      return this.booksAttrUnique('price', forceNumber).sort((a, b) => a - b);
     },
     filterPriceMarks() {
-      const [low, high] = this.filterPrice;
+      const low = Math.min(...this.booksPrices);
+      const high = Math.max(...this.booksPrices);
+      console.log(low, high);
       return [low || '', Number.isFinite(high) ? high : ''];
     },
   },
